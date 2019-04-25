@@ -26,3 +26,5 @@ app/__pycache__/routes.cpython-37.pyc
 #Flask Framework (Webserver)
 
 #Angular angularJS
+1. Install Node.js and Npm from https://nodejs.org/en/download/
+2. Install Angular CLI npm install -g @angular/cli
