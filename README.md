@@ -1,5 +1,7 @@
 # wa-film
 
+NICHT PULLEN BEVOR ALLE LOKALEN FILECHANGES STASHED SIND
+
 # Umgebungsvorbereitung 
 
 1. Visual Studio code
@@ -13,6 +15,13 @@
 9. set FLASK_APP-microblog.py  (Flask Umgebungsvariable setzen)
 10. flask run (Server starten)
 11. Install pylint (Syntax Highlighting)
+
+## Info 
+These two files will be ignored because they are different on each machine
+
+app/__pycache__/__init__.cpython-37.pyc
+app/__pycache__/routes.cpython-37.pyc 
+
 
 #Flask Framework (Webserver)
 
