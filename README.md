@@ -1,6 +1,6 @@
 # wa-film
 
-NICHT PULLEN BEVOR ALLE LOKALEN FILECHANGES STASHED SIND
+NICHT PULLEN BEVOR NICHT ALLE LOKALEN FILECHANGES GE-STASHED WURDEN
 
 # Umgebungsvorbereitung 
 
@@ -21,6 +21,9 @@ These two files will be ignored because they are different on each machine
 
 app/__pycache__/__init__.cpython-37.pyc
 app/__pycache__/routes.cpython-37.pyc 
+
+Whenever anything is used in routes (import from Flask-Application (app))
+It needs to be added in __init__.py too. 
 
 
 #Flask Framework (Webserver)
