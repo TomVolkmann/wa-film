@@ -19,3 +19,8 @@ def add_entry () :
     print(new_entry["title"] + " Success")
     database.saveNewMovie(id,title)
     return redirect('/')
+
+@app.route('/movies')
+def print_movies():
+    movies = database.getMovies()
+    return render_template('list.html', movies = movies) 

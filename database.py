@@ -23,5 +23,11 @@ def saveNewMovie(movie_id,title):
     session.commit()
     session.close()
 
-
+def getMovies():
+    movies = session.query(Movies).all()
+    print(type(movies))
+    session.close()
+    return movies
+    
+getMovies()
 
