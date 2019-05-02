@@ -10,8 +10,8 @@ NICHT PULLEN BEVOR ALLE LOKALEN FILECHANGES STASHED SIND
 4. Windows Umgebungsvariable (Path) setzen falls python nicht geht
 5. Wa-Film clone and open
 6. Python -m venv venv  (virtuelle Umgebung "venv" erstellen)
-7. pip install -r requirements.txt (Pakete von Requirements installieren)
-8. venv\Scripts\activate 
+7. venv\Scripts\activate 
+8. pip install -r requirements.txt (Pakete von Requirements installieren)
 9. set FLASK_APP-microblog.py  (Flask Umgebungsvariable setzen)
 10. flask run (Server starten)
 11. Install pylint (Syntax Highlighting)
