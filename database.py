@@ -37,10 +37,14 @@ session = Session()
 
 def saveNewMovie(input):   
     movie = Movies(title=input["title"],release_date=input["release_date"])
+    contact = Contacts(name=input['contact'])
+
+    movie.contacts.append(contact)
 
     #print(movie["title"])
 
     session.add(movie)
+    session.add(contact)
     session.commit()
     session.close()
 
@@ -49,6 +53,17 @@ def getMovies():
     print(type(movies))
     session.close()
     return movies
+
+def get_movie(movie_id):
+    record = session.query(Movies).filter(Movies.id == movie_id).first()
+    session.close()
+    return record
+
+def deleteMovies(id):
+
+    session.delete(get_movie(id))
+    session.commit()
+    session.close()
     
 
 # m1 = Movies(title="Test", release_date="19.02.2019")

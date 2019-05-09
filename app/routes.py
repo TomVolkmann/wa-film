@@ -11,15 +11,13 @@ app.secret_key = "your secret"
 class PostMovieForm(FlaskForm):
     title = StringField('title', validators=[DataRequired()])
     release_date = StringField('Release date', validators=[DataRequired()])
+    contact = StringField('Regisseur')
 
 @app.route('/')
 def show_entries(): 
     form = PostMovieForm() 
-    return render_template('show_entries.html', form=form)
-
-@app.route("/index")
-def index():
-    return render_template('helloWorld.html') 
+    entries = database.getMovies()
+    return render_template('show_entries.html', form=form,entries=entries)
 
 @app.route ('/add_entry', methods=['POST'])
 def add_entry():
@@ -28,11 +26,20 @@ def add_entry():
     if form.validate():
         e = {
             'title': form.data['title'],
-            'release_date': form.data['release_date']
+            'release_date': form.data['release_date'],
+            'contact': form.data['contact']
         }
         print(e)
         database.saveNewMovie(e)
     return redirect('/')
+
+@app.route ('/delete')
+def delete_movie():
+    id = int(request.args.get("id"))
+
+    database.deleteMovies(id)
+
+    return redirect("/")
 
 
 #@app.route('/index')
