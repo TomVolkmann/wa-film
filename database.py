@@ -69,17 +69,14 @@ def get_movies():
         Link.contact_id == Contacts.id).order_by(Link.movies_id).all():
 
         movie_total = {
-            "Title" : x.Movies.title,
-            "Name" : x.Contacts.name
+            "id" : x.Movies.id,
+            "title" : x.Movies.title,
+            "release_date" : x.Movies.release_date,
+            "name" : x.Contacts.name
         }
         movie_totals.append(movie_total)
+    session.close()
     return movie_totals
-
-# def getMovies():
-#     movies = session.query(Movies).all()
-#     print(type(movies))
-#     session.close()
-#     return movies
 
 def get_movie(movie_id):
     record = session.query(Movies).filter(Movies.id == movie_id).first()
@@ -87,55 +84,6 @@ def get_movie(movie_id):
     return record
 
 def deleteMovies(id):
-
     session.delete(get_movie(id))
     session.commit()
     session.close()
-    
-
-# m1 = Movies(title = "GoT")
-# m2 = Movies(title = "Modern Families")
-
-# c1 = Contacts(name = "John")
-# c2 = Contacts(name = "Tony")
-
-
-# c1.movies.append(m1)
-# c2.movies.append(m2)
-# session.add(m1)
-# session.add(m2)
-# session.add(c1)
-# session.add(c2)
-# session.commit()
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-# m1 = Movies(title="Test", release_date="19.02.2019")
-# m2 = Movies(title="Test1", release_date="18.02.2019")
-
-# c1 = Contacts(name="Hans")
-# c2 = Contacts(name="Franz")
-
-# m1.contacts.append(c1)
-
-# session.add(m1)
-# session.add(m2)
-# session.add(c1)
-# session.add(c2)
-
-# session.commit()
-# session.close()
