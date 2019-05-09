@@ -1,5 +1,6 @@
 from app import app
 from app import render_template, request, redirect
+from flask_wtf import Form
 import main
 import database
  
