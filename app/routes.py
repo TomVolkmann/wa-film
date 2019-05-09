@@ -22,3 +22,5 @@ def add_entry () :
 def print_movies():
     movies = database.getMovies()
     return render_template('list.html', movies = movies) 
+
+

@@ -48,5 +48,19 @@ def getMovies():
     session.close()
     return movies
     
-getMovies()
 
+m1 = Movies(id = 0,title="Test", release_date="19.02.2019")
+m2 = Movies(id = 1,title="Test1", release_date="18.02.2019")
+
+c1 = Contacts(id = 0, name="Hans")
+c2 = Contacts(id = 1, name="Franz")
+
+m1.contacts.append(c1)
+
+session.add(m1)
+session.add(m2)
+session.add(c1)
+session.add(c2)
+
+session.commit()
+session.close()
