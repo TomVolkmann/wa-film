@@ -1,0 +1,6 @@
+<form action="/add_entry" method="post">
+    {{ form.hidden_tag() }}
+    {{ form.title.label }} {{ form.title() }}<br>
+    {{ form.release_date.label }} {{ form.release_date() }}<br>
+    <input type="submit" value="Absenden">
+</form>
