@@ -16,7 +16,7 @@ class PostMovieForm(FlaskForm):
 @app.route('/')
 def show_entries(): 
     form = PostMovieForm() 
-    entries = database.getMovies()
+    entries = database.get_movies()
     return render_template('show_entries.html', form=form,entries=entries)
 
 @app.route ('/add_entry', methods=['POST'])

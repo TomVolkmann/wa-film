@@ -5,12 +5,6 @@ from sqlalchemy.ext.declarative import declarative_base
 Base = declarative_base()
 ENGINE = create_engine('sqlite:///app_db.db')
 
-contact_movies= Table('contact_movies',
-    Base.metadata,
-    Column('contact_id',Integer ,ForeignKey ('contacts.id')),
-    Column('movie_id',Integer,ForeignKey('movies.id'))
-)
-
 class Movies(Base):
     __tablename__ = "movies"
 
@@ -19,7 +13,7 @@ class Movies(Base):
     release_date = Column('releaseDate', String)
     
     #referring  to the secondary table
-    contacts = relationship("Contacts",secondary=contact_movies)
+    contacts = relationship("Contacts",secondary='link')
 
 class Contacts(Base):
     __tablename__ = "contacts"
@@ -28,8 +22,26 @@ class Contacts(Base):
     name = Column('name', String)
 
     #referring  to the secondary table
-    movies = relationship("Movies",secondary=contact_movies)
+    movies = relationship("Movies",secondary='link')
 
+class Link(Base):
+    __tablename__ = 'link'
+    movies_id = Column(
+    Integer, 
+    ForeignKey('movies.id'), 
+    primary_key = True)
+
+    contact_id = Column(
+   Integer, 
+   ForeignKey('contacts.id'), 
+   primary_key = True)
+
+
+#    contact_movies= Table('contact_movies',
+#     Base.metadata,
+#     Column('contact_id',Integer ,ForeignKey ('contacts.id')),
+#     Column('movie_id',Integer,ForeignKey('movies.id'))
+# )
 
 Base.metadata.create_all(bind=ENGINE)
 Session = sessionmaker(bind=ENGINE)
@@ -48,11 +60,26 @@ def saveNewMovie(input):
     session.commit()
     session.close()
 
-def getMovies():
-    movies = session.query(Movies).all()
-    print(type(movies))
-    session.close()
-    return movies
+
+
+
+def get_movies():
+    movie_totals = []
+    for x in session.query(Movies, Contacts).filter(Link.movies_id == Movies.id, 
+        Link.contact_id == Contacts.id).order_by(Link.movies_id).all():
+
+        movie_total = {
+            "Title" : x.Movies.title,
+            "Name" : x.Contacts.name
+        }
+        movie_totals.append(movie_total)
+    return movie_totals
+
+# def getMovies():
+#     movies = session.query(Movies).all()
+#     print(type(movies))
+#     session.close()
+#     return movies
 
 def get_movie(movie_id):
     record = session.query(Movies).filter(Movies.id == movie_id).first()
@@ -65,6 +92,37 @@ def deleteMovies(id):
     session.commit()
     session.close()
     
+
+# m1 = Movies(title = "GoT")
+# m2 = Movies(title = "Modern Families")
+
+# c1 = Contacts(name = "John")
+# c2 = Contacts(name = "Tony")
+
+
+# c1.movies.append(m1)
+# c2.movies.append(m2)
+# session.add(m1)
+# session.add(m2)
+# session.add(c1)
+# session.add(c2)
+# session.commit()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 # m1 = Movies(title="Test", release_date="19.02.2019")
 # m2 = Movies(title="Test1", release_date="18.02.2019")
