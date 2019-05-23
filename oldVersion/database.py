@@ -1,3 +1,6 @@
+from app import login, db
+from werkzeug.security import generate_password_hash, check_password_hash
+from flask_login import UserMixin
 from sqlalchemy import Column, String, Integer, create_engine, Table, ForeignKey
 from sqlalchemy.orm import sessionmaker, relationship
 from sqlalchemy.ext.declarative import declarative_base
@@ -36,16 +39,30 @@ class Link(Base):
    ForeignKey('contacts.id'), 
    primary_key = True)
 
+class User(UserMixin, db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(120), index=True, unique=True)
+    password_hash = db.Column(db.String(128))
 
-#    contact_movies= Table('contact_movies',
-#     Base.metadata,
-#     Column('contact_id',Integer ,ForeignKey ('contacts.id')),
-#     Column('movie_id',Integer,ForeignKey('movies.id'))
-# )
+    def set_password(self, password):
+        self.password_hash = generate_password_hash(password)
+
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
+
+    @login.user_loader
+    def load_user(self, id):
+        return User.query.get(int(id))
+
+    def __repr__(self):
+        return '<User {}>'.format(self.username)    
+
 
 Base.metadata.create_all(bind=ENGINE)
 Session = sessionmaker(bind=ENGINE)
 session = Session() 
+
 
 def saveNewMovie(input):   
     movie = Movies(title=input["title"],release_date=input["release_date"])
@@ -59,9 +76,6 @@ def saveNewMovie(input):
     session.add(contact)
     session.commit()
     session.close()
-
-
-
 
 def get_movies():
     movie_totals = []
