@@ -6,6 +6,7 @@ from wtforms.validators import DataRequired
 import main
 import database
 
+
 app.secret_key = "your secret"
 
 class PostMovieForm(FlaskForm):
@@ -42,14 +43,14 @@ def delete_movie():
     return redirect("/")
 
 
-#@app.route('/index')
-#def index():
-#    return render_template('helloWorld.html') 
+@app.route('/index')
+def index():
+    return render_template('helloWorld.html') 
 
 
-#@app.route('/movies')
-#def print_movies():
-#    movies = database.getMovies()
-#    return render_template('list.html', movies = movies) 
+# @app.route('/movies')
+# def print_movies():
+#     movies = database.getMovies()
+#     return render_template('list.html', movies = movies) 
 
 
