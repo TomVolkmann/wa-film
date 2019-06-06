@@ -63,11 +63,6 @@
 <i>No entry yet.</i>
 {%endif%}
 
-
-
-
-
-
 <form action="/add_entry" method="post">
     <div class="form-group px5">
         <label for="title">Movie Title</label><br>
@@ -84,11 +79,6 @@
         <label for="contact">Contact</label><br>
         {{ form.contact() }}
     </div>
-
-    {{ form.hidden_tag() }}
-    {{ form.title.label }} {{ form.title() }}<br>
-    {{ form.release_date.label }} {{ form.release_date() }}<br>
-    {{ form.contact.label }} {{ form.contact() }}<br>
     <input type="submit" class="btn btn-outline-primary" value="Absenden">
 </form>
 </body>
