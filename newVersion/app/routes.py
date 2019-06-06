@@ -3,7 +3,7 @@ from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request
 from app.forms import LoginForm, PostMovieForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movies
+from app.models import User, Movie
 from werkzeug.urls import url_parse
 
 @app.route('/')
@@ -30,11 +30,11 @@ def index():
 @app.route('/show')
 def show_entries(): 
     form = PostMovieForm() 
-    entries = Movies.get_movies()
+    entries = Movie.getMovies()
     return render_template('show_entries.html', form=form,entries=entries)
 
 @app.route ('/add_entry', methods=['POST'])
-def add_entry():
+def add_movie():
     form = PostMovieForm() 
     e = {
         'title': form.data['title'],
@@ -42,14 +42,14 @@ def add_entry():
         'contact': form.data['contact']
     }
     print(e)
-    Movies.saveNewMovie(e)
+    Movie.addMovie(e)
     return redirect(url_for('show_entries'))
 
 @app.route ('/delete')
 def delete_movie():
     id = int(request.args.get("id"))
 
-    Movies.deleteMovies(id)
+    Movie.deleteMovie(id)
 
     return redirect(url_for('index'))
 

@@ -35,17 +35,38 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
-class Movies(db.Model):
-    __tablename__ = "movies"
+class Movie(db.Model):
+    __tablename__ = "movie"
     id = db.Column(db.Integer, primary_key=True)
-    title = db.Column(db.String(32), unique=True)
+
+    title_DE = db.Column(db.String, unique=True)
+    title_EN = db.Column(db.String, unique=True)
+    isReleased = db.Column(db.Integer)
     release_date = db.Column(db.String(140))
-    
+    format = db.Column(db.String)
+    isColored = db.Column(db.Integer)
+    language = db.Column(db.String)
+    duration = db.Column(db.String)
+
+    synopsis = db.Column(db.String)
+    awards = db.Column(db.String)
+    screenings = db.Column(db.String)
+    supporters = db.Column(db.String)
+
+    directors = db.Column(db.String)
+    producers = db.Column(db.String)
+    executive_producers = db.Column(db.String)
+    editors = db.Column(db.String)
+    cinematography = db.Column(db.String)
+    sound_recordist = db.Column(db.String)
+    sound_mix = db.Column(db.String)
+    color = db.Column(db.String)
+
     #referring  to the secondary table
     contacts = db.relationship("Contacts",secondary='link')
 
-    def saveNewMovie(input):   
-        movie = Movies(title=input["title"],release_date=input["release_date"])
+    def addMovie(input):   
+        movie = Movie(title=input["title"],release_date=input["release_date"])
         contact = Contacts(name=input['contact'])
 
         movie.contacts.append(contact)
@@ -55,28 +76,28 @@ class Movies(db.Model):
         db.session.commit()
         db.session.close()
 
-    def get_movies():
+    def getMovies():
         movies = []
-        for x in db.session.query(Movies, Contacts).filter(Link.movies_id == Movies.id, 
+        for x in db.session.query(Movie, Contacts).filter(Link.movies_id == Movie.id, 
             Link.contact_id == Contacts.id).order_by(Link.movies_id).all():
 
             movie_total = {
-                "id" : x.Movies.id,
-                "title" : x.Movies.title,
-                "release_date" : x.Movies.release_date,
+                "id" : x.Movie.id,
+                "title" : x.Movie.title,
+                "release_date" : x.Movie.release_date,
                 "name" : x.Contacts.name
             }
             movies.append(movie_total)
         db.session.close()
         return movies
 
-    def get_movie(movie_id):
-        record = db.session.query(Movies).filter(Movies.id == movie_id).first()
+    def getMovie(movie_id):
+        record = db.session.query(Movie).filter(Movie.id == movie_id).first()
         db.session.close()
         return record
 
-    def deleteMovies(id):
-        db.session.delete(Movies.get_movie(id))
+    def deleteMovie(id):
+        db.session.delete(Movie.getMovie(id))
         db.session.commit()
         db.session.close()
 
@@ -86,8 +107,8 @@ class Contacts(db.Model):
     name = db.Column(db.String(32))
 
     #referring  to the secondary table
-    movies = relationship("Movies",secondary='link')
+    movies = relationship("Movie",secondary='link')
 
 class Link(db.Model):
-    movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
+    movies_id = db.Column(db.Integer, ForeignKey('movie.id'), primary_key = True)
     contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
