@@ -1,194 +1,27 @@
-<!DOCTYPE  html>
-<html  lang="en">
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-<link href="/static/bootstrap.min.css" rel="stylesheet" media="screen">
-<script src="//ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
-<script src="/static/bootstrap.min.js"></script>
-
-<head>
-</head>
-
-<body>
-
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-                <a class="navbar-brand" href="/">
-                  <img src="/static/home_icon.png" width="30" height="30" alt="">
-
-                </a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                  <span class="navbar-toggler-icon"></span>
-                </button>
-              
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                  <ul class="navbar-nav mr-auto">
-                    <!-- <li class="nav-item active">
-                      <a class="nav-link" href="/index">Home <span class="sr-only">(current)</span></a>
-                    </li> -->
-                    <li class="nav-item">
-                      <a class="nav-link" href="/">Link</a>
-                    </li>
-                    <li class="nav-item dropdown">
-                      <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Filme
-                      </a>
-                      <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                        <a class="dropdown-item" href="/">Action</a>
-                        <a class="dropdown-item" href="/">Another action</a>
-                        <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" href="#">Something else here</a>
-                      </div>
-                    </li>
-                    <li class="nav-item">
-                      <a class="nav-link disabled" href="#">Disabled</a>
-                    </li>
-                  </ul>
-                  <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                  </form>
-                </div>
-              </nav>
-
-{% if entries | length > 0 %}
-{%for entry in entries%}
-<h3 >{{entry.title_DE }}</h3 >
-<div >
-    {{entry.isReleased}}
-    {{entry.release_date}}
-</div >
-
-<button onclick ="window.location = '/delete?id={{entry.id}}';"> Delete </button>
-{%endfor%}
+{% block app_content %}
+  {% if entries | length > 0 %}
+    {%for entry in entries%}
+<     <h3 >{{entry.title }}</h3 >
+      <div>
+        {{entry.isReleased}}
+        {{entry.release_date}}
+      </div >
+      <button onclick ="window.location = '/delete?id={{entry.id}}';"> Delete </button>
+    {%endfor%}
 {%else%}
-<i>No entry yet.</i>
+  <i>No entry yet.</i>
 {%endif%}
-
-<form action="/add_entry" method="post">
-    <div class="form-group px5">
-        <label for="title_DE">Movie Title German</label><br>
-        {{ form.title_DE() }}
+  <h1>Movies</h1>
+    <div class="row">
+      <div class="col-md-4">
+        {{ wtf.quick_form(form) }}
+        <input type="submit" class="btn btn-outline-primary" value="Absenden">
+      </div>
     </div>
-
-    <div class="form-group px5">
-      <label for="title_EN">Movie Title English</label><br>
-      {{ form.title_EN() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="isReleased">Is Released?</label><br>
-      {{ form.isReleased() }}
-    </div>
-
-    <div class="form-group">
-        <span class="border"></span>
-        <label for="release_date">Release Date</label><br>
-        {{ form.release_date() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="format">Format</label><br>
-      {{ form.format() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="isColored">Is Colored?</label><br>
-      {{ form.isColored() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="language">Language</label><br>
-      {{ form.language() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="duration">Duration</label><br>
-      {{ form.duration() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="synopsis">Synopsis</label><br>
-      {{ form.synopsis() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="awards">Awards</label><br>
-      {{ form.awards() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="screenings">Screenings</label><br>
-      {{ form.screenings() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="supporters">Supporters</label><br>
-      {{ form.supporters() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="directors">Directors</label><br>
-      {{ form.directors() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="producers">Producers</label><br>
-      {{ form.producers() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="producers">Producers</label><br>
-      {{ form.producers() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="executive_producers">Executive Producers</label><br>
-      {{ form.executive_producers() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="editors">Editors</label><br>
-      {{ form.editors() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="cinematography">Cinematography</label><br>
-      {{ form.cinematography() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="sound_recordist">Sound Recordist</label><br>
-      {{ form.sound_recordist() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="sound_mix">Sound Mix</label><br>
-      {{ form.sound_mix() }}
-    </div>
-
-    <div class="form-group">
-      <span class="border"></span>
-      <label for="color">Color</label><br>
-      {{ form.color() }}
-    </div>
+{% endblock %}
 
     <input type="submit" class="btn btn-outline-primary" value="Absenden">
 </form>
-</body>
-</html>
