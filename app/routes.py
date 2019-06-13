@@ -18,6 +18,22 @@ def show_entries():
     entries = Movie.getMovies()
     return render_template('show_entries.html', entries=entries)
 
+@app.route('/add_form')
+def add_entry_form():
+    source = request.args.get("source")
+
+    if source == "movie":
+        form = PostMovieForm()
+    elif source == "post":
+        form = PostPostForm()
+    elif source == "contact":
+        form = PostContactForm()
+    else:
+        abort(500, "Source {0} not found".format(source))
+
+    return render_template('add_entry.html', form=form)
+
+    
 @app.route ('/add_entry', methods=['POST'])
 def add_movie():
     form = PostMovieForm() 
@@ -106,10 +122,6 @@ def moviesDevelopment():
 def moviesCompleted():
     return ""
 
-@app.route('/add_movie')
-def addMovie():
-    form = PostMovieForm() 
-    return render_template('add_movie.html',form=form)
 
 
 

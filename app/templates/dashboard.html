@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+  <button onclick ="window.location = '/add_form?source=movie';"> Add </button>
   {% if movies | length > 0 %}
     {%for movie in movies%}
      <h3 >{{movie.title_DE }}</h3 >

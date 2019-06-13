@@ -35,6 +35,26 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
+    def addPost():
+        post = Post(
+            body=input["body"],
+            user_id=input["user_id"],
+        )
+        
+        db.session.add(post)
+        db.session.commit()
+        db.session.close()
+
+    def getPost(post_id):
+        post = db.session.query(Movie).filter(Post.id == post_id).first()
+        db.session.close()
+        return post
+
+    def deleteMovie(id):
+        db.session.delete(Post.getPost(id))
+        db.session.commit()
+        db.session.close()
+    
 class Movie(db.Model):
     __tablename__ = "movies"
     id = db.Column(db.Integer, primary_key=True)
