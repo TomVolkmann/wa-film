@@ -4,9 +4,26 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
 class PostMovieForm(FlaskForm):
-    title = StringField('title', validators=[DataRequired()])
-    release_date = StringField('Release date', validators=[DataRequired()])
-    contact = StringField('Regisseur')
+    title_DE = StringField(validators=[DataRequired()])
+    title_EN = StringField(validators=[DataRequired()])
+    isReleased = BooleanField(validators=[DataRequired()])
+    release_date = StringField()
+    format = StringField()
+    isColored = BooleanField()
+    language = StringField()
+    duration = StringField()
+    synopsis = StringField()
+    awards = StringField()
+    screenings = StringField()
+    supporters = StringField()
+    directors = StringField()
+    producers = StringField()
+    executive_producers = StringField()
+    editors = StringField()
+    cinematography = StringField()
+    sound_recordist = StringField()
+    sound_mix = StringField()
+    color = StringField()
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

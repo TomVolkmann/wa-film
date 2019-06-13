@@ -22,9 +22,10 @@ def show_entries():
 def add_movie():
     form = PostMovieForm() 
     e = {
-        'title': form.data['title'],
+        'title_DE': form.data['title_DE'],
+        'title_EN': form.data['title_EN'],
         'release_date': form.data['release_date'], 
-        'contact': form.data['contact']
+        'isReleased': form.data['isReleased']
     }
     print(e)
     Movie.addMovie(e)

@@ -66,27 +66,37 @@ class Movie(db.Model):
     contacts = db.relationship("Contact",secondary='link')
 
     def addMovie(input):   
-        movie = Movie(title=input["title"],release_date=input["release_date"])
-        contact = Contact(name=input['contact'])
+        movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
+        #contact = Contact(name=input['contact'])
 
-        movie.contacts.append(contact)
+        #movie.contacts.append(contact)
 
         db.session.add(movie)
-        db.session.add(contact)
+        #db.session.add(contact)
         db.session.commit()
         db.session.close()
 
     def getMovies():
         movies = []
-        for x in db.session.query(Movie, Contact).filter(Link.movies_id == Movie.id, 
-            Link.contact_id == Contact.id).order_by(Link.movies_id).all():
+        # for x in db.session.query(Movie, Contact).filter(Link.movies_id == Movie.id, 
+        #     Link.contact_id == Contact.id).order_by(Link.movies_id).all():
 
+        #     movie_total = {
+        #         "id" : x.Movie.id,
+        #         "title" : x.Movie.title_DE,
+        #         "release_date" : x.Movie.release_date,
+        #         "name" : x.Contact.name
+        #     }
+
+        for x in db.session.query(Movie).all():
             movie_total = {
-                "id" : x.Movie.id,
-                "title" : x.Movie.title_DE,
-                "release_date" : x.Movie.release_date,
-                "name" : x.Contact.name
+                "id" : x.id,
+                "title_DE" : x.title_DE,
+                "title_EN" : x.title_EN,
+    	        "isReleased" : x.isReleased,
+                "release_date" : x.release_date,
             }
+
             movies.append(movie_total)
         db.session.close()
         return movies

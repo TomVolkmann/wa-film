@@ -51,9 +51,9 @@
 
 {% if entries | length > 0 %}
 {%for entry in entries%}
-<h3 >{{entry.title }}</h3 >
+<h3 >{{entry.title_DE }}</h3 >
 <div >
-    {{entry.name}}
+    {{entry.isReleased}}
     {{entry.release_date}}
 </div >
 
@@ -65,8 +65,19 @@
 
 <form action="/add_entry" method="post">
     <div class="form-group px5">
-        <label for="title">Movie Title</label><br>
-        {{ form.title.label }} {{ form.title() }}
+        <label for="title_DE">Movie Title German</label><br>
+        {{ form.title_DE() }}
+    </div>
+
+    <div class="form-group px5">
+      <label for="title_EN">Movie Title English</label><br>
+      {{ form.title_EN() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="isReleased">Is Released?</label><br>
+      {{ form.isReleased() }}
     </div>
 
     <div class="form-group">
@@ -76,9 +87,107 @@
     </div>
 
     <div class="form-group">
-        <label for="contact">Contact</label><br>
-        {{ form.contact() }}
+      <span class="border"></span>
+      <label for="format">Format</label><br>
+      {{ form.format() }}
     </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="isColored">Is Colored?</label><br>
+      {{ form.isColored() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="language">Language</label><br>
+      {{ form.language() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="duration">Duration</label><br>
+      {{ form.duration() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="synopsis">Synopsis</label><br>
+      {{ form.synopsis() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="awards">Awards</label><br>
+      {{ form.awards() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="screenings">Screenings</label><br>
+      {{ form.screenings() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="supporters">Supporters</label><br>
+      {{ form.supporters() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="directors">Directors</label><br>
+      {{ form.directors() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="producers">Producers</label><br>
+      {{ form.producers() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="producers">Producers</label><br>
+      {{ form.producers() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="executive_producers">Executive Producers</label><br>
+      {{ form.executive_producers() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="editors">Editors</label><br>
+      {{ form.editors() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="cinematography">Cinematography</label><br>
+      {{ form.cinematography() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="sound_recordist">Sound Recordist</label><br>
+      {{ form.sound_recordist() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="sound_mix">Sound Mix</label><br>
+      {{ form.sound_mix() }}
+    </div>
+
+    <div class="form-group">
+      <span class="border"></span>
+      <label for="color">Color</label><br>
+      {{ form.color() }}
+    </div>
+
     <input type="submit" class="btn btn-outline-primary" value="Absenden">
 </form>
 </body>
