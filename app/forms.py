@@ -4,12 +4,12 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User
 
 class PostMovieForm(FlaskForm):
-    title_DE = StringField(validators=[DataRequired()])
-    title_EN = StringField(validators=[DataRequired()])
-    isReleased = BooleanField(validators=[DataRequired()])
+    title_DE = StringField("Movie Title German", validators=[DataRequired()])
+    title_EN = StringField("Movie Title English", validators=[DataRequired()])
+    isReleased = BooleanField("Is Released ?", validators=[DataRequired()])
     release_date = StringField()
     format = StringField()
-    isColored = BooleanField()
+    isColored = BooleanField("Color or Black and White ?")
     language = StringField()
     duration = StringField()
     synopsis = StringField()
