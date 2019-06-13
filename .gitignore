@@ -105,4 +105,4 @@ ENV/
 .DS_Store
 
 # Visual Studio Code 
-./vscode/settings.json
+.vscode
