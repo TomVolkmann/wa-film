@@ -18,35 +18,6 @@ def show_entries():
     entries = Movie.getMovies()
     return render_template('show_entries.html', entries=entries)
 
-@app.route('/add_form')
-def add_entry_form():
-    source = request.args.get("source")
-
-    if source == "movie":
-        form = PostMovieForm()
-    elif source == "post":
-        form = PostPostForm()
-    elif source == "contact":
-        form = PostContactForm()
-    else:
-        abort(500, "Source {0} not found".format(source))
-
-    return render_template('add_entry.html', form=form)
-
-    
-@app.route ('/add_entry', methods=['POST'])
-def add_movie():
-    form = PostMovieForm() 
-    e = {
-        'title_DE': form.data['title_DE'],
-        'title_EN': form.data['title_EN'],
-        'release_date': form.data['release_date'], 
-        'isReleased': form.data['isReleased']
-    }
-    print(e)
-    Movie.addMovie(e)
-    return redirect(url_for('show_entries'))
-
 @app.route ('/delete')
 def delete_movie():
     id = int(request.args.get("id"))
@@ -122,7 +93,59 @@ def moviesDevelopment():
 def moviesCompleted():
     return ""
 
+# @app.route('/add_form')
+# def add_entry_form():
+#     source = request.args.get("source")
+
+#     if source == "movie":
+#         form = PostMovieForm()
+#     elif source == "post":
+#         form = PostPostForm()
+#     elif source == "contact":
+#         form = PostContactForm()
+#     else:
+#         abort(500, "Source {0} not found".format(source))
+
+#     return render_template('add_entry.html', form=form)
 
 
+  
+# @app.route ('/add_entry', methods=['POST'])
+# def add_movie():
+#     form = PostMovieForm() 
+#     if form.validate_on_submit():
+#     e = {
+#         'title_DE': form.data['title_DE'],
+#         'title_EN': form.data['title_EN'],
+#         'release_date': form.data['release_date'], 
+#         'isReleased': form.data['isReleased']
+#     }
+#     print(e)
+#     Movie.addMovie(e)
+#     return redirect(url_for('show_entries'))
 
 
+@app.route('/edit_movie', methods=['GET', 'POST'])
+@login_required
+def edit_movie():
+    form = PostMovieForm()
+    if form.validate_on_submit():
+        e = {
+            'title_DE': form.data['title_DE'],
+            'title_EN': form.data['title_EN'],
+            'release_date': form.data['release_date'], 
+            'isReleased': form.data['isReleased']
+        }
+        print(e)
+        Movie.addMovie(e)
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_movie'))
+    elif request.method == 'GET':
+        movie_id = request.args.get("movie_id")
+        if movie_id is not None: 
+            print(movie_id)
+            movie = Movie.getMovie(int(movie_id))
+            form.title_DE.data = movie.title_DE
+            form.title_EN.data = movie.title_EN
+       
+    return render_template('edit_movie.html', title='Edit Movie',form=form)
