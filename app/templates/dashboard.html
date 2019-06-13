@@ -1,1 +1,17 @@
 {% extends "base.html" %}
+
+{% block app_content %}
+  {% if movies | length > 0 %}
+    {%for movie in movies%}
+     <h3 >{{movie.title_DE }}</h3 >
+      <div>
+        {{movie.isReleased}}
+        {{movie.release_date}}
+      </div >
+      <button onclick ="window.location = '/edit?id={{movie.id}}';"> Edit </button>
+      <button onclick ="window.location = '/delete?id={{movie.id}}&source=movie';"> Delete </button>
+    {%endfor%}
+{%else%}
+  <i>No movie yet.</i>
+{%endif%}
+{%endblock%}

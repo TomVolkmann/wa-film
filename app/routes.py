@@ -5,6 +5,7 @@ from app.forms import LoginForm, PostMovieForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Movie
 from werkzeug.urls import url_parse
+from werkzeug.exceptions import abort
 
 @app.route('/')
 @app.route('/index')
@@ -33,8 +34,16 @@ def add_movie():
 @app.route ('/delete')
 def delete_movie():
     id = int(request.args.get("id"))
+    source = request.args.get("source")
 
-    Movie.deleteMovie(id)
+    if source == "movie":
+        Movie.deleteMovie(id)
+    elif source == "post":
+        Post.deletePost(id)
+    elif source == "contact":
+        Contact.deleteContact(id)
+    else:
+        abort(500, "Source {0} not found".format(source))
 
     return redirect(url_for('index'))
 
@@ -74,10 +83,13 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+@login_required
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-    form = PostMovieForm() 
-    return render_template('dashboard.html',form=form)
+
+    movies = Movie.getMovies()
+
+    return render_template('dashboard.html', movies = movies)
 
 
 @app.route('/movies/<movietitle>')
