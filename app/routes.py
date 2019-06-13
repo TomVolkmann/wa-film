@@ -10,22 +10,7 @@ from werkzeug.urls import url_parse
 @app.route('/index')
 @login_required
 def index():
-    user = {'username': 'Boss'}
-    posts = [
-        {
-            'author': {'username': 'John'},
-            'body': 'Beautiful day in Portland!'
-        },
-        {
-            'author': {'username': 'Susan'},
-            'body': 'The Avengers movie was so cool!'
-        },
-        {
-            'author': {'username' :'Tom'},
-            'body': 'Das Ende von GOT suckt!'
-        }
-    ]
-    return render_template("index.html", title='Home Page', posts=posts)
+    return render_template("index.html", title='Home Page')
 
 @app.route('/show')
 def show_entries(): 
@@ -37,9 +22,10 @@ def show_entries():
 def add_movie():
     form = PostMovieForm() 
     e = {
-        'title': form.data['title'],
+        'title_DE': form.data['title_DE'],
+        'title_EN': form.data['title_EN'],
         'release_date': form.data['release_date'], 
-        'contact': form.data['contact']
+        'isReleased': form.data['isReleased']
     }
     print(e)
     Movie.addMovie(e)

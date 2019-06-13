@@ -39,3 +39,6 @@ It needs to be added in __init__.py too.
 #Flask-Migrate 
 flask db migrate -m "users table"
 flask db upgrade
+
+#Debug Mode 
+$env:FLASK_DEBUG = "1"
