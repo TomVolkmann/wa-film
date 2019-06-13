@@ -31,7 +31,7 @@ def index():
 def show_entries(): 
     form = PostMovieForm() 
     entries = Movie.getMovies()
-    return render_template('show_entries.html', form=form,entries=entries)
+    return render_template('show_entries.html', form=form, entries=entries)
 
 @app.route ('/add_entry', methods=['POST'])
 def add_movie():

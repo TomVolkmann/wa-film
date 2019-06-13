@@ -1,5 +1,5 @@
 {
-    "python.pythonPath": "venv\\Scripts\\python.exe",
+    "python.pythonPath": "C:\\Users\\kaysi\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
     "sqltools.connections": [
         {
             "database": ".\\app.db",
