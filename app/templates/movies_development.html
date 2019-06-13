@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+
+{% block app_content %}
+  {% if movies | length > 0 %}
+    {%for movie in movies%}
+     <h3 >{{movie.title_DE }}</h3 >
+      <div>
+        {{movie.isReleased}}
+        {{movie.release_date}}
+        <a href="/movies/{{movie.title_DE}}">Go here</a>
+      </div >
+    {%endfor%}
+{%else%}
+  <i>No movie yet.</i>
+{%endif%}
+{%endblock%}

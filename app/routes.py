@@ -14,9 +14,8 @@ def index():
 
 @app.route('/show')
 def show_entries(): 
-    form = PostMovieForm() 
     entries = Movie.getMovies()
-    return render_template('show_entries.html', form=form, entries=entries)
+    return render_template('show_entries.html', entries=entries)
 
 @app.route ('/add_entry', methods=['POST'])
 def add_movie():
@@ -74,3 +73,32 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/dashboard', methods=['GET', 'POST'])
+def dashboard():
+    form = PostMovieForm() 
+    return render_template('dashboard.html',form=form)
+
+
+@app.route('/movies/<movietitle>')
+def movie(movietitle):
+    movie = Movie.query.filter_by(title_DE=movietitle).first()
+    return render_template('movie.html',movie=movie)
+
+@app.route('/development')
+def moviesDevelopment():
+    movies = Movie.query.filter_by(isReleased=0).all()
+    return render_template('movies_development.html',movies=movies)
+
+@app.route('/completed')
+def moviesCompleted():
+    return ""
+
+@app.route('/add_movie')
+def addMovie():
+    form = PostMovieForm() 
+    return render_template('add_movie.html',form=form)
+
+
+
+

@@ -6,7 +6,7 @@ from app.models import User
 class PostMovieForm(FlaskForm):
     title_DE = StringField("Movie Title German", validators=[DataRequired()])
     title_EN = StringField("Movie Title English", validators=[DataRequired()])
-    isReleased = BooleanField("Is Released ?", validators=[DataRequired()])
+    isReleased = BooleanField("Is Released ?")
     release_date = StringField()
     format = StringField()
     isColored = BooleanField("Color or Black and White ?")

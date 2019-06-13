@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-{% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
   {% if entries | length > 0 %}
@@ -14,20 +13,6 @@
 {%else%}
   <i>No entry yet.</i>
 {%endif%}
-
-  <div class="container">
-    <form method="POST" action="/add_entry" >
-      <div class = "row">
-        <div class = "col-md-4">
-          <d1>
-            {{ wtf.quick_form(form) }}
-            <input type="submit" class="btn btn-outline-primary" value="Absenden">
-          </d1>
-        </div>
-      </div>
-      
-    </form>
-  </div>
 {%endblock%}
 
 
