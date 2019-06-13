@@ -14,14 +14,36 @@
 {%else%}
   <i>No entry yet.</i>
 {%endif%}
-  <h1>Movies</h1>
+
+    <h1>Movies</h1>
     <div class="row">
-      <div class="col-md-4">
-        {{ wtf.quick_form(form) }}
-        <input type="submit" class="btn btn-outline-primary" value="Absenden">
-      </div>
+        <div class="col-md-4">
+            {{ wtf.quick_form(form) }}
+            <input type="submit" class="btn btn-outline-primary" value="Absenden">
+        </div>
     </div>
 {% endblock %}
 
-    <input type="submit" class="btn btn-outline-primary" value="Absenden">
+<!--
+
+    <form action="/add_entry" method="post">
+    <div class="form-group px5">
+        <label for="title">Movie Title</label><br>
+        {{ form.title.label }} {{ form.title() }}
+    </div>
+{% endblock %}
+
+    <div class="form-group">
+        <span class="border"></span>
+        <label for="release_date">Release Date</label><br>
+        {{ form.release_date() }}
+    </div>
+
+    <div class="form-group">
+        <label for="contact">Contact</label><br>
+        {{ form.contact() }}
+    </div>
+    <input type="submit" class="btn btn-outline-secondary" value="Absenden">
 </form>
+-->
+
