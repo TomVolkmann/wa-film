@@ -36,7 +36,7 @@ class Post(db.Model):
         return '<Post {}>'.format(self.body)
 
 class Movie(db.Model):
-    __tablename__ = "movie"
+    __tablename__ = "movies"
     id = db.Column(db.Integer, primary_key=True)
 
     title_DE = db.Column(db.String, unique=True)
@@ -63,11 +63,11 @@ class Movie(db.Model):
     color = db.Column(db.String)
 
     #referring  to the secondary table
-    contacts = db.relationship("Contacts",secondary='link')
+    contacts = db.relationship("Contact",secondary='link')
 
     def addMovie(input):   
         movie = Movie(title=input["title"],release_date=input["release_date"])
-        contact = Contacts(name=input['contact'])
+        contact = Contact(name=input['contact'])
 
         movie.contacts.append(contact)
 
@@ -78,14 +78,14 @@ class Movie(db.Model):
 
     def getMovies():
         movies = []
-        for x in db.session.query(Movie, Contacts).filter(Link.movies_id == Movie.id, 
-            Link.contact_id == Contacts.id).order_by(Link.movies_id).all():
+        for x in db.session.query(Movie, Contact).filter(Link.movies_id == Movie.id, 
+            Link.contact_id == Contact.id).order_by(Link.movies_id).all():
 
             movie_total = {
                 "id" : x.Movie.id,
-                "title" : x.Movie.title,
+                "title" : x.Movie.title_DE,
                 "release_date" : x.Movie.release_date,
-                "name" : x.Contacts.name
+                "name" : x.Contact.name
             }
             movies.append(movie_total)
         db.session.close()
@@ -101,7 +101,7 @@ class Movie(db.Model):
         db.session.commit()
         db.session.close()
 
-class Contacts(db.Model):
+class Contact(db.Model):
     __tablename__ = "contacts"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
@@ -110,5 +110,5 @@ class Contacts(db.Model):
     movies = relationship("Movie",secondary='link')
 
 class Link(db.Model):
-    movies_id = db.Column(db.Integer, ForeignKey('movie.id'), primary_key = True)
+    movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
     contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)

@@ -15,7 +15,7 @@ NICHT PULLEN BEVOR NICHT ALLE LOKALEN FILECHANGES GE-STASHED WURDEN
 9. ~~set FLASK_APP-microblog.py  (Flask Umgebungsvariable setzen)~~
 10. flask run (Server starten)
 11. Install pylint (Syntax Highlighting)
-12. npm install bootstrap
+12. pip install flask-bootstrap
 
 # requirements.txt updaten
 pip freeze > requirements.txt
@@ -35,3 +35,7 @@ It needs to be added in __init__.py too.
 #Angular angularJS
 1. Install Node.js and Npm from https://nodejs.org/en/download/
 2. Install Angular CLI npm install -g @angular/cli
+
+#Flask-Migrate 
+flask db migrate -m "users table"
+flask db upgrade
