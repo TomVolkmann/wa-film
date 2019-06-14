@@ -19,12 +19,16 @@
         <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 <li><a href="{{ url_for('index') }}">Home</a></li>
-                <li><a href="{{ url_for('show_entries') }}">Movies</a></li>
+                <li><a href="{{ url_for('completed') }}">Completed Movies</a></li>
+                <li><a href="{{ url_for('development') }}">Movies in Development</a></li>
+                <li><a href="{{ url_for('news') }}">News</a></li>
+                
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% if current_user.is_anonymous %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 {% else %}
+                <li><a href="{{ url_for('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% endif %}
             </ul>

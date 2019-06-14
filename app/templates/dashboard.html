@@ -1,6 +1,7 @@
 {% extends "base.html" %}
 
 {% block app_content %}
+  <h1>Movies</h1>
   <button onclick ="window.location = '/add_form?source=movie';"> Add </button>
   {% if movies | length > 0 %}
     {%for movie in movies%}
@@ -9,10 +10,26 @@
         {{movie.isReleased}}
         {{movie.release_date}}
       </div >
-      <button onclick ="window.location = '/edit?id={{movie.id}}';"> Edit </button>
+      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
+      <button onclick ="window.location = '/edit_movie?id={{movie.id}}';"> Edit </button>
       <button onclick ="window.location = '/delete?id={{movie.id}}&source=movie';"> Delete </button>
     {%endfor%}
 {%else%}
   <i>No movie yet.</i>
+{%endif%}
+{% block app_content %}
+  {% if posts | length > 0 %}
+    {%for post in posts%}
+     <h3 >{{post.title_DE }}</h3 >
+      <div>
+        {{post.body}}
+        {{post.timestamp}}
+      </div >
+      <button onclick ="window.location = '/posts/{{post.title_DE}}';"> See </button>
+      <button onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
+      <button onclick ="window.location = '/delete_post?id={{post.id}}&source=movie';"> Delete </button>
+    {%endfor%}
+{%else%}
+  <i>No post yet.</i>
 {%endif%}
 {%endblock%}

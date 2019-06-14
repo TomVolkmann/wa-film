@@ -3,7 +3,7 @@ from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request
 from app.forms import LoginForm, PostMovieForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movie
+from app.models import User, Movie, Post
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
 
@@ -12,11 +12,6 @@ from werkzeug.exceptions import abort
 @login_required
 def index():
     return render_template("index.html", title='Home Page')
-
-@app.route('/show')
-def show_entries(): 
-    entries = Movie.getMovies()
-    return render_template('show_entries.html', entries=entries)
 
 @app.route ('/delete')
 def delete_movie():
@@ -70,60 +65,39 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
+###################### GENERAL NAV ###############################
+
+@app.route('/completed')
+def completed(): 
+    movies = Movie.query.filter_by(isReleased=1).all()
+    return render_template('movies_completed.html', movies=movies)
+
+@app.route('/development')
+def development():
+    movies = Movie.query.filter_by(isReleased=0).all()
+    return render_template('movies_development.html',movies=movies)
+
 @login_required
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
-
-    movies = Movie.getMovies()
-
+    movies = Movie.query.all()
     return render_template('dashboard.html', movies = movies)
 
+@app.route('/about')
+def about(): 
+    return render_template('about.html')
 
+@app.route('/news')
+def news():
+    posts = Post.query.all()
+    return render_template('news.html', posts=posts)
+
+
+###################### MOVIES ####################################
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
     movie = Movie.query.filter_by(title_DE=movietitle).first()
     return render_template('movie.html',movie=movie)
-
-@app.route('/development')
-def moviesDevelopment():
-    movies = Movie.query.filter_by(isReleased=0).all()
-    return render_template('movies_development.html',movies=movies)
-
-@app.route('/completed')
-def moviesCompleted():
-    return ""
-
-# @app.route('/add_form')
-# def add_entry_form():
-#     source = request.args.get("source")
-
-#     if source == "movie":
-#         form = PostMovieForm()
-#     elif source == "post":
-#         form = PostPostForm()
-#     elif source == "contact":
-#         form = PostContactForm()
-#     else:
-#         abort(500, "Source {0} not found".format(source))
-
-#     return render_template('add_entry.html', form=form)
-
-
-  
-# @app.route ('/add_entry', methods=['POST'])
-# def add_movie():
-#     form = PostMovieForm() 
-#     if form.validate_on_submit():
-#     e = {
-#         'title_DE': form.data['title_DE'],
-#         'title_EN': form.data['title_EN'],
-#         'release_date': form.data['release_date'], 
-#         'isReleased': form.data['isReleased']
-#     }
-#     print(e)
-#     Movie.addMovie(e)
-#     return redirect(url_for('show_entries'))
-
 
 @app.route('/edit_movie', methods=['GET', 'POST'])
 @login_required
@@ -141,11 +115,17 @@ def edit_movie():
         flash('Your changes have been saved.')
         return redirect(url_for('edit_movie'))
     elif request.method == 'GET':
-        movie_id = request.args.get("movie_id")
-        if movie_id is not None: 
-            print(movie_id)
-            movie = Movie.getMovie(int(movie_id))
+        id = request.args.get("id")
+        if id is not None: 
+            print(id)
+            movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
        
     return render_template('edit_movie.html', title='Edit Movie',form=form)
+
+####################### POSTS ##############################
+
+
+
+

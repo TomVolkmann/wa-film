@@ -28,6 +28,7 @@ def load_user(id):
 
 class Post(db.Model):
     id = db.Column(db.Integer, primary_key=True)
+    title = db.Column(db.String)
     body = db.Column(db.String(140))
     timestamp = db.Column(db.DateTime, index=True, default=datetime.utcnow)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
@@ -50,7 +51,7 @@ class Post(db.Model):
         db.session.close()
         return post
 
-    def deleteMovie(id):
+    def deletePost(id):
         db.session.delete(Post.getPost(id))
         db.session.commit()
         db.session.close()
@@ -95,31 +96,6 @@ class Movie(db.Model):
         #db.session.add(contact)
         db.session.commit()
         db.session.close()
-
-    def getMovies():
-        movies = []
-        # for x in db.session.query(Movie, Contact).filter(Link.movies_id == Movie.id, 
-        #     Link.contact_id == Contact.id).order_by(Link.movies_id).all():
-
-        #     movie_total = {
-        #         "id" : x.Movie.id,
-        #         "title" : x.Movie.title_DE,
-        #         "release_date" : x.Movie.release_date,
-        #         "name" : x.Contact.name
-        #     }
-
-        for x in db.session.query(Movie).all():
-            movie_total = {
-                "id" : x.id,
-                "title_DE" : x.title_DE,
-                "title_EN" : x.title_EN,
-    	        "isReleased" : x.isReleased,
-                "release_date" : x.release_date,
-            }
-
-            movies.append(movie_total)
-        db.session.close()
-        return movies
 
     def getMovie(movie_id):
         record = db.session.query(Movie).filter(Movie.id == movie_id).first()
