@@ -3,11 +3,7 @@
 {% block app_content %}
   {% if posts | length > 0 %}
     {%for post in posts%}
-     <h3 >{{post.title_DE }}</h3 >
-      <div>
-        {{post.body}}
-        {{post.timestamp}}
-      </div >
+      {% include '_post.html' %}
       <button onclick ="window.location = '/posts/{{post.title_DE}}';"> See </button>
     {%endfor%}
 {%else%}

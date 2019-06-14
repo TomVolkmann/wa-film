@@ -1,8 +1,16 @@
+<head> 
+    <link rel="shortcut icon" href="{{ url_for('static' , filename='favicon.ico')}}">
+</head>
+
 {% extends 'bootstrap/base.html' %}
 
 {% block title %}
     {% if title %}{{ title }} - FILMWENDE{% else %}Welcome to Filmwende{% endif %}
 {% endblock %}
+
+
+
+
 
 {% block navbar %}
 <nav class="navbar navbar-default">
@@ -51,3 +59,4 @@
         {% block app_content %}{% endblock %}
     </div>
 {% endblock %}
+

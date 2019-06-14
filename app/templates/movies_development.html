@@ -3,12 +3,8 @@
 {% block app_content %}
   {% if movies | length > 0 %}
     {%for movie in movies%}
-     <h3 >{{movie.title_DE }}</h3 >
-      <div>
-        {{movie.isReleased}}
-        {{movie.release_date}}
-        <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
-      </div >
+      {% include '_movie_preview.html' %}
+      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
     {%endfor%}
 {%else%}
   <i>No movie yet.</i>

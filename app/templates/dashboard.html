@@ -2,34 +2,35 @@
 
 {% block app_content %}
   <h1>Movies</h1>
-  <button onclick ="window.location = '/add_form?source=movie';"> Add </button>
+  <button onclick ="window.location = '/edit_movie';"> Add Movie</button>
   {% if movies | length > 0 %}
-    {%for movie in movies%}
-     <h3 >{{movie.title_DE }}</h3 >
+      {%for movie in movies%}
       <div>
-        {{movie.isReleased}}
-        {{movie.release_date}}
-      </div >
-      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
-      <button onclick ="window.location = '/edit_movie?id={{movie.id}}';"> Edit </button>
-      <button onclick ="window.location = '/delete?id={{movie.id}}&source=movie';"> Delete </button>
+        {% include '_movie_preview.html' %}
+        <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
+        <button onclick ="window.location = '/edit_movie?id={{movie.id}}';"> Edit </button>
+        <button onclick ="window.location = '/delete_movie?id={{movie.id}}';"> Delete </button>
+      </div>
     {%endfor%}
-{%else%}
-  <i>No movie yet.</i>
-{%endif%}
-{% block app_content %}
+  {%else%}
+    <i>No movie yet.</i>
+  {%endif%}
+
+
+  <h1>Post</h1>
+  <button onclick ="window.location = '/edit_post';"> Add Post</button>
   {% if posts | length > 0 %}
     {%for post in posts%}
-     <h3 >{{post.title_DE }}</h3 >
-      <div>
-        {{post.body}}
-        {{post.timestamp}}
-      </div >
-      <button onclick ="window.location = '/posts/{{post.title_DE}}';"> See </button>
-      <button onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
-      <button onclick ="window.location = '/delete_post?id={{post.id}}&source=movie';"> Delete </button>
+        <div>
+          {% include '_post.html' %}
+          <button onclick ="window.location = '/posts/{{post.title}}';"> See </button>
+          <button onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
+          <button onclick ="window.location = '/delete_post?id={{post.id}}';"> Delete </button>
+        </div>
     {%endfor%}
-{%else%}
-  <i>No post yet.</i>
-{%endif%}
+  {%else%}
+    <i>No post yet.</i>
+  {%endif%}
+
+
 {%endblock%}

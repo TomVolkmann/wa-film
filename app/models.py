@@ -36,10 +36,11 @@ class Post(db.Model):
     def __repr__(self):
         return '<Post {}>'.format(self.body)
 
-    def addPost():
+    def addPost(input):
         post = Post(
-            body=input["body"],
-            user_id=input["user_id"],
+            user_id = input["user_id"],
+            title=input["title"],
+            body=input["body"]
         )
         
         db.session.add(post)
@@ -47,9 +48,17 @@ class Post(db.Model):
         db.session.close()
 
     def getPost(post_id):
-        post = db.session.query(Movie).filter(Post.id == post_id).first()
+        post = db.session.query(Post).filter(Post.id == post_id).first()
         db.session.close()
         return post
+
+    def getPosts():
+        total_posts = db.session.query(Post).join(User).all()
+        for row in total_posts:
+            for user in row.user:
+                print(user.username)
+        
+        return total_posts
 
     def deletePost(id):
         db.session.delete(Post.getPost(id))
