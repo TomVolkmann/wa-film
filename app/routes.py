@@ -96,7 +96,8 @@ def edit_movie():
             'title_DE': form.data['title_DE'],
             'title_EN': form.data['title_EN'],
             'release_date': form.data['release_date'], 
-            'isReleased': form.data['isReleased']
+            'isReleased': form.data['isReleased'],
+            'directors': form.data['directors']
         }
         print(e)
         Movie.addMovie(e)

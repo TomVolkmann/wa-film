@@ -93,16 +93,16 @@ class Movie(db.Model):
     color = db.Column(db.String)
 
     #referring  to the secondary table
-    contacts = db.relationship("Contact",secondary='link')
+    # contacts = db.relationship("Contact",secondary='link')
 
     def addMovie(input):   
         movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
-        #contact = Contact(name=input['contact'])
-
-        #movie.contacts.append(contact)
+        contact = Contact(name=input['directors'])
+        movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Director") 
 
         db.session.add(movie)
-        #db.session.add(contact)
+        db.session.add(contact)
+        db.session.add(movie_contact)
         db.session.commit()
         db.session.close()
 
@@ -122,9 +122,20 @@ class Contact(db.Model):
     name = db.Column(db.String(32))
 
     #referring  to the secondary table
-    movies = relationship("Movie",secondary='link')
+    #movies = relationship("Movie",secondary='link')
 
-class Link(db.Model):
-    movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
-    contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
+# class Link(db.Model):
+#     movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
+#     contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
+#     contact_type = db.Column(db.String)
+
+class Movie_Contact(db.Model):
+    __tablename__ = 'movie_contacts'
+
+    id = db.Column('id', db.Integer, primary_key=True)
+    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'))
+    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'))
     contact_type = db.Column(db.String)
+
+    contact = db.relationship(Contact, backref="contacts")
+    movie = db.relationship(Movie, backref="movies")

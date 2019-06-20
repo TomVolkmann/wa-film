@@ -1,9 +1,14 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField,SelectMultipleField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models import User, Contact
 
 class PostMovieForm(FlaskForm):
+
+    contacts = Contact.query.all()
+
+    contact_list=[(i.id, i.name) for i in contacts]
+
     title_DE = StringField("Movie Title German", validators=[DataRequired()])
     title_EN = StringField("Movie Title English", validators=[DataRequired()])
     isReleased = BooleanField("Is Released ?")
@@ -16,7 +21,8 @@ class PostMovieForm(FlaskForm):
     awards = StringField()
     screenings = StringField()
     supporters = StringField()
-    directors = StringField()
+    #directors = StringField()
+    directors = SelectMultipleField(choices=contact_list)
     producers = StringField()
     executive_producers = StringField()
     editors = StringField()
