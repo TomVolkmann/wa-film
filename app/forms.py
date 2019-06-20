@@ -4,11 +4,6 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User, Contact
 
 class PostMovieForm(FlaskForm):
-
-    contacts = Contact.query.all()
-
-    contact_list=[(i.id, i.name) for i in contacts]
-
     title_DE = StringField("Movie Title German", validators=[DataRequired()])
     title_EN = StringField("Movie Title English", validators=[DataRequired()])
     isReleased = BooleanField("Is Released ?")
@@ -22,7 +17,7 @@ class PostMovieForm(FlaskForm):
     screenings = StringField()
     supporters = StringField()
     #directors = StringField()
-    directors = SelectMultipleField(choices=contact_list)
+    directors = SelectMultipleField(choices=[], coerce=int)
     producers = StringField()
     executive_producers = StringField()
     editors = StringField()
@@ -58,4 +53,7 @@ class RegistrationForm(FlaskForm):
 class PostNewsForm(FlaskForm):
     title = StringField("News Post Title", validators=[DataRequired()])
     body = StringField("Post body", validators=[DataRequired()])
+
+class ContactForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
 

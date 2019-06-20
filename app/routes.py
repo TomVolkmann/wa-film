@@ -1,9 +1,9 @@
 from app import app, db
 from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request
-from app.forms import LoginForm, PostMovieForm, PostNewsForm
+from app.forms import LoginForm, PostMovieForm, PostNewsForm, ContactForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movie, Post
+from app.models import User, Movie, Post, Contact
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
 
@@ -30,7 +30,8 @@ def development():
 def dashboard():
     movies = Movie.query.all()
     posts = Post.query.all()
-    return render_template('dashboard.html', movies = movies,posts=posts)
+    contacts = Contact.query.all()
+    return render_template('dashboard.html', movies = movies,posts=posts,contacts=contacts)
 
 @app.route('/about')
 def about(): 
@@ -90,8 +91,12 @@ def movie(movietitle):
 @app.route('/edit_movie', methods=['GET', 'POST'])
 @login_required
 def edit_movie():
+    
     form = PostMovieForm()
+    form.directors.choices = [(director.id, director.name) for director in Contact.query.all()]
+     
     if form.validate_on_submit():
+        #print(form.data['directors'][0])
         e = {
             'title_DE': form.data['title_DE'],
             'title_EN': form.data['title_EN'],
@@ -148,7 +153,7 @@ def edit_post():
             form.title.data = post.title
             form.body.data = post.body
        
-    return render_template('edit.html', title='Edit Post',form=form)
+    return render_template('edit_post.html', title="Edit Post", form=form)
 
 @app.route ('/delete_post')
 def delete_post():
@@ -158,6 +163,39 @@ def delete_post():
 
 
 ####################### CONTACTS ##############################
+
+@app.route('/contacts/<contactid>')
+def contact(contactid):
+    contact = Contact.query.filter_by(id=contactid).first()
+    return render_template('contact.html',contact=contact)
+
+@app.route('/edit_contact', methods=['GET', 'POST'])
+@login_required
+def edit_contact():
+    form = ContactForm()
+    if form.validate_on_submit():
+        e = {
+            'name': form.data['name'],
+        }
+        print(e)
+        Contact.addContact(e)
+        flash('Your changes have been saved.')
+        return redirect(url_for('edit_contact'))
+    elif request.method == 'GET':
+        id = request.args.get("id")
+        if id is not None: 
+            print(id)
+            contact = Contact.getContact(int(id))
+            form.name.data = contact.name
+       
+    return render_template('edit_contact.html', title="Edit Contact", form=form)
+
+@app.route ('/delete_contact')
+def delete_contact():
+    id = int(request.args.get("id"))
+    Contact.deleteContact(id)
+    return redirect(url_for('index'))
+
 
 ####################### ABOUT    ##############################
 

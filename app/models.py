@@ -97,12 +97,17 @@ class Movie(db.Model):
 
     def addMovie(input):   
         movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
-        contact = Contact(name=input['directors'])
-        movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Director") 
-
         db.session.add(movie)
-        db.session.add(contact)
-        db.session.add(movie_contact)
+        db.session.commit()
+
+        contacts_id = input['directors']
+        for contact_id in contacts_id:
+            print(contact_id)
+            contact = Contact.getContact(contact_id)
+            movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Director") 
+            db.session.add(movie_contact)
+            db.session.commit()
+
         db.session.commit()
         db.session.close()
 
@@ -121,13 +126,28 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
 
-    #referring  to the secondary table
-    #movies = relationship("Movie",secondary='link')
+    def addContact(input):   
+        contact = Contact(name=input["name"])
+        
+        db.session.add(contact)
+        db.session.commit()
+        db.session.close()
 
-# class Link(db.Model):
-#     movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
-#     contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
-#     contact_type = db.Column(db.String)
+    def getContact(contact_id):
+        record = db.session.query(Contact).filter(Contact.id == contact_id).first()
+        db.session.close()
+        return record
+
+    def deleteContact(id):
+        movie_contacts = db.session.query(Movie_Contact).filter(Movie_Contact.contact_id == id).all()
+        for mc in movie_contacts: 
+            db.session.delete(mc)
+            db.session.commit()
+
+        db.session.delete(Contact.getContact(id))
+        
+        db.session.commit()
+        db.session.close() 
 
 class Movie_Contact(db.Model):
     __tablename__ = 'movie_contacts'
