@@ -91,6 +91,7 @@ class Movie(db.Model):
     sound_recordist = db.Column(db.String)
     sound_mix = db.Column(db.String)
     color = db.Column(db.String)
+    img_url = db.Column(db.String)
 
     #referring  to the secondary table
     # contacts = db.relationship("Contact",secondary='link')
@@ -107,6 +108,16 @@ class Movie(db.Model):
             movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Director") 
             db.session.add(movie_contact)
             db.session.commit()
+        
+        contacts_id_2 = input['producers']
+        for contact_id_2 in contacts_id_2:
+            print(contact_id_2)
+            contact = Contact.getContact(contact_id_2)
+            movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Producer") 
+            db.session.add(movie_contact)
+            db.session.commit()
+        
+
 
         db.session.commit()
         db.session.close()
@@ -145,7 +156,7 @@ class Contact(db.Model):
             db.session.commit()
 
         db.session.delete(Contact.getContact(id))
-        
+
         db.session.commit()
         db.session.close() 
 

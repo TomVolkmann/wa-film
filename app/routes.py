@@ -85,9 +85,19 @@ def logout():
 ###################### MOVIES ####################################
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
-    movies = db.session.query(Movie_Contact, Movie).join(Movie,Movie_Contact.movie_id == Movie.id).all()
-    for movie in movies:
-        movie.id
+    #movie = Movie.query.filter_by(title_DE = movietitle).join(Movie_Contact, Movie_Contact.movie_id == Movie.id).first()
+    results = (db.session.query(Movie_Contact,Movie,Contact)
+        .join(Movie, Movie.id == Movie_Contact.movie_id)
+        .join(Contact, Contact.id == Movie_Contact.contact_id)
+        .filter(Movie.title_DE == movietitle)
+        ).all()
+    print(results)
+
+    # movieContact = results[0]
+    # movie = results[1]
+    # contact = results[2]
+
+
     return render_template('movie.html',movie=movie)
 
 @app.route('/edit_movie', methods=['GET', 'POST'])
@@ -96,6 +106,7 @@ def edit_movie():
     
     form = PostMovieForm()
     form.directors.choices = [(director.id, director.name) for director in Contact.query.all()]
+    form.producers.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
      
     if form.validate_on_submit():
         #print(form.data['directors'][0])
@@ -104,7 +115,8 @@ def edit_movie():
             'title_EN': form.data['title_EN'],
             'release_date': form.data['release_date'], 
             'isReleased': form.data['isReleased'],
-            'directors': form.data['directors']
+            'directors': form.data['directors'],
+            'producers': form.data['producers']
         }
         print(e)
         Movie.addMovie(e)
