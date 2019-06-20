@@ -127,3 +127,4 @@ class Contact(db.Model):
 class Link(db.Model):
     movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
     contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
+    contact_type = db.Column(db.String)
