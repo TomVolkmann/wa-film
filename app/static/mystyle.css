@@ -1,0 +1,36 @@
+#header {
+  background-image:url("BlueSky.jpg");
+  background-size: 100% 145px;
+  margin: 0px;
+  padding: 0px;
+}
+
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.navbar.navbar-inverse {
+  padding: 10px 0;
+  background: rgba(0, 0, 0, .1)!important;
+  border-color: transparent;
+  border: none;
+  margin-bottom: 0;
+}
+
+.navbar-inverse{
+  border-color: #00000000 !important;
+}
+
+.navbar.navbar-inverse .navbar-collapse, .navbar.navbar-inverse, .navbar-inverse .navbar-form{
+  padding: 10px 0;
+  background: rgba(0, 0, 0, .1)!important;
+  border-color: transparent;
+  border: none;
+  margin-bottom: 0;
+}
+
+#divider{
+  color: #00000000;
+}
