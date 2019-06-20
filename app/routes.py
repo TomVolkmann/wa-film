@@ -3,7 +3,7 @@ from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request
 from app.forms import LoginForm, PostMovieForm, PostNewsForm, ContactForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movie, Post, Contact
+from app.models import User, Movie, Post, Contact,Movie_Contact
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
 
@@ -85,7 +85,9 @@ def logout():
 ###################### MOVIES ####################################
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
-    movie = Movie.query.filter_by(title_DE=movietitle).first()
+    movies = db.session.query(Movie_Contact, Movie).join(Movie,Movie_Contact.movie_id == Movie.id).all()
+    for movie in movies:
+        movie.id
     return render_template('movie.html',movie=movie)
 
 @app.route('/edit_movie', methods=['GET', 'POST'])
