@@ -92,6 +92,7 @@ def movie(movietitle):
         .filter(Movie.title_DE == movietitle)
         ).all()
     print(results)
+    print(results[0])
 
     # movieContact = results[0]
     # movie = results[1]
