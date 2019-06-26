@@ -16,16 +16,15 @@ class PostMovieForm(FlaskForm):
     awards = StringField()
     screenings = StringField()
     supporters = StringField()
-    #directors = StringField()
+
     directors = SelectMultipleField(choices=[], coerce=int)
-    #producers = StringField()
     producers = SelectMultipleField(choices=[], coerce=int)
-    executive_producers = StringField()
-    editors = StringField()
-    cinematography = StringField()
-    sound_recordist = StringField()
-    sound_mix = StringField()
-    color = StringField()
+    executive_producers = SelectMultipleField(choices=[], coerce=int)
+    editors = SelectMultipleField(choices=[], coerce=int)
+    cinematography = SelectMultipleField(choices=[], coerce=int)
+    sound_recordist = SelectMultipleField(choices=[], coerce=int)
+    sound_mix = SelectMultipleField(choices=[], coerce=int)
+    color = SelectMultipleField(choices=[], coerce=int)
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])

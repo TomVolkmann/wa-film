@@ -99,13 +99,25 @@ class Movie(db.Model):
     def addMovie(input):   
 
         directors_str = create_String(input['directors'])
+        producers_str = create_String(input['producers'])
+        executive_producers_str = create_String(input['executive_producers'])
+        editors_str = create_String(input['editors'])
+        sound_recordist_str = create_String(input['sound_mix'])
+        sound_mix_str = create_String(input['sound_mix'])
+        color_str = create_String(input['color'])
 
         movie = Movie(
             title_DE=input["title_DE"],
             title_EN=input["title_EN"],
             isReleased=input["isReleased"],
             release_date=input["release_date"],
-            directors = directors_str
+            directors = directors_str,
+            producers = producers_str,
+            executive_producers = executive_producers_str,
+            editors = editors_str,
+            sound_recordist = sound_recordist_str,
+            sound_mix = sound_mix_str,
+            color = color_str
         )
         db.session.add(movie)
         db.session.commit()

@@ -84,19 +84,17 @@ def logout():
 ###################### MOVIES ####################################
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
-    #movie = Movie.query.filter_by(title_DE = movietitle).join(Movie_Contact, Movie_Contact.movie_id == Movie.id).first()
-    # results = (db.session.query(Movie_Contact,Movie,Contact)
-    #     .join(Movie, Movie.id == Movie_Contact.movie_id)
-    #     .join(Contact, Contact.id == Movie_Contact.contact_id)
-    #     .filter(Movie.title_DE == movietitle)
-    #     ).all()
 
     #Get Movie id
     movie_result = Movie.query.filter_by(title_DE = movietitle).first()
-    print(movie_result)
-    director_list = movie_result.directors.split(",")
-    directors = Contact.getContacts(director_list)
-    print(directors)
+
+    directors = Contact.getContacts(movie_result.directors.split(","))
+    producers = Contact.getContacts(movie_result.producers.split(","))
+    executive_producers = Contact.getContacts(movie_result.executive_producers.split(","))
+    editors = Contact.getContacts(movie_result.editors.split(","))
+    sound_recordist = Contact.getContacts(movie_result.sound_recordist.split(","))
+    sound_mix = Contact.getContacts(movie_result.sound_mix.split(","))
+    color = Contact.getContacts(movie_result.color.split(","))
 
     #Create Movie Object
     movie = {
@@ -105,35 +103,15 @@ def movie(movietitle):
         'release_date': movie_result.release_date, 
         'isReleased': movie_result.isReleased,
         'directors': directors,
-        # 'producers': None
+        'producers': producers,
+        'executive_producers': executive_producers,
+        'editors': editors,
+        'sound_recordist': sound_recordist,
+        'sound_mix': sound_mix,
+        'color': color
     }
-    
-    # #Check if Movie has associated Contacts 
-    # movie_contacts = Movie_Contact.query.filter_by(movie_id = movie_result.id).all()
-
-    # if movie_contacts:
-    #     print("Not Empty")
-    #     result = (db.session.query(Movie_Contact,Contact)
-    #         .join(Contact, Contact.id == Movie_Contact.contact_id)
-    #         .filter(Movie_Contact.movie_id == movie_result.id)
-    #         ).all()
-    #     print(result)
-    #     movie = assign_contacts(result,movie)
-    #     print(movie)
-    # else:
-    #     print("Empty") 
 
     return render_template('movie.html',movie=movie)
-
-
-# def assign_contacts(data,movie):
-#     for data_block in data:
-#         movie_contact = data_block.[0]
-#         contact = data_block.[1]
-#         if(movie_contact.contact_type == "directors"):
-#             movie.directors == contact.name
-#     return movie
-
 
 @app.route('/edit_movie', methods=['GET', 'POST'])
 @login_required
@@ -142,6 +120,13 @@ def edit_movie():
     form = PostMovieForm()
     form.directors.choices = [(director.id, director.name) for director in Contact.query.all()]
     form.producers.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.executive_producers.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.editors.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.cinematography.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.sound_recordist.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.sound_mix.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+    form.color.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
+
      
     if form.validate_on_submit():
         #print(form.data['directors'][0])
@@ -151,7 +136,12 @@ def edit_movie():
             'release_date': form.data['release_date'], 
             'isReleased': form.data['isReleased'],
             'directors': form.data['directors'],
-            'producers': form.data['producers']
+            'producers': form.data['producers'],
+            'executive_producers': form.data['executive_producers'],
+            'editors': form.data['editors'],
+            'sound_recordist': form.data['sound_recordist'],
+            'sound_mix': form.data['sound_mix'],
+            'color': form.data['color'] 
         }
         print(e)
         Movie.addMovie(e)
