@@ -88,14 +88,34 @@ def movie(movietitle):
     #Get Movie id
     movie_result = Movie.query.filter_by(title_DE = movietitle).first()
 
-    directors = Contact.getContacts(movie_result.directors.split(","))
-    producers = Contact.getContacts(movie_result.producers.split(","))
-    executive_producers = Contact.getContacts(movie_result.executive_producers.split(","))
-    editors = Contact.getContacts(movie_result.editors.split(","))
-    cinematography = Contact.getContacts(movie_result.cinematography.split(","))
-    sound_recordist = Contact.getContacts(movie_result.sound_recordist.split(","))
-    sound_mix = Contact.getContacts(movie_result.sound_mix.split(","))
-    color = Contact.getContacts(movie_result.color.split(","))
+    directors = Contact.getContacts(movie_result.directors)
+    producers = Contact.getContacts(movie_result.producers)
+    executive_producers = Contact.getContacts(movie_result.executive_producers)
+    editors = Contact.getContacts(movie_result.editors)
+    cinematography = Contact.getContacts(movie_result.cinematography)
+    sound_recordist = Contact.getContacts(movie_result.sound_recordist)
+    sound_mix = Contact.getContacts(movie_result.sound_mix)
+    color = Contact.getContacts(movie_result.color)
+
+    if movie_result.release_date:
+        release_date = movie_result.release_date
+    else: 
+        release_date = []
+
+    if movie_result.isReleased:
+        isReleased = movie_result.isReleased
+    else:
+        isReleased = []
+    
+    if movie_result.duration:
+        duration = movie_result.duration
+    else:
+        duration = []
+
+    if movie_result.synopsis:
+        synopsis = movie_result.synopsis
+    else:
+        synopsis = []
 
     isColored = ""
     if movie_result.isColored == "b_w": 
@@ -133,14 +153,14 @@ def movie(movietitle):
     movie = {
         'title_DE': movie_result.title_DE,
         'title_EN': movie_result.title_EN,
-        'release_date': movie_result.release_date, 
-        'isReleased': movie_result.isReleased,
+        'release_date': release_date, 
+        'isReleased': isReleased,
         'format': format,
         'isColored': isColored,
         'language': language,
-        'duration': movie_result.duration,
+        'duration': duration,
 
-        'synopsis': movie_result.synopsis,
+        'synopsis': synopsis,
         'awards': awards,
         'screenings': screenings,
         'supporters': supporters,

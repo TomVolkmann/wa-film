@@ -162,13 +162,15 @@ class Contact(db.Model):
         db.session.close()
         return record
     
-    def getContacts(contact_ids):
+    def getContacts(contact_list):
         name_list = []
-        for contact_id in contact_ids:
-            contact = db.session.query(Contact).filter(Contact.id == contact_id).first()
-            if contact:
-                name_list.append(contact.name)
-        db.session.close()
+        if contact_list:
+            contact_ids = contact_list.split(",")
+            for contact_id in contact_ids:
+                contact = db.session.query(Contact).filter(Contact.id == contact_id).first()
+                if contact:
+                    name_list.append(contact.name)
+            db.session.close()
         return name_list
 
     def deleteContact(id):
