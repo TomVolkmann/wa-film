@@ -1,11 +1,20 @@
 from app import app, db
 from app.forms import RegistrationForm
-from flask import render_template, flash, redirect,url_for, request
+from flask import render_template, flash, redirect,url_for, request, send_from_directory
 from app.forms import LoginForm, PostMovieForm, PostNewsForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Movie, Post
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
+
+from werkzeug.utils import secure_filename
+from flask_uploads import UploadSet, configure_uploads, IMAGES, patch_request_class
+from flask_wtf.file import FileField, FileRequired, FileAllowed
+from flask_wtf import FlaskForm
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField
+import os
+import hashlib
+import time
 
 ###################### GENERAL NAV ###############################
 
@@ -82,21 +91,43 @@ def logout():
     return redirect(url_for('index'))
 
 ###################### MOVIES ####################################
+ALLOWED_EXTENSIONS = set(['txt', 'pdf', 'png', 'jpg', 'jpeg', 'gif'])
+
+def allowed_file(filename):
+    return '.' in filename and \
+           filename.rsplit('.', 1)[1] in ALLOWED_EXTENSIONS
+
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
     movie = Movie.query.filter_by(title_DE=movietitle).first()
     return render_template('movie.html',movie=movie)
 
+# @app.route('/show/<filename>')
+# def uploaded_file(filename):
+#     filename = 'http://127.0.0.1:5000/uploads/' + filename
+#     return render_template('template.html', filename=filename)
+
 @app.route('/edit_movie', methods=['GET', 'POST'])
 @login_required
 def edit_movie():
     form = PostMovieForm()
+
     if form.validate_on_submit():
+
+        file = request.files['image_url']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+        # filename = request.files.get('photo')
+        # photos.save(filename)
+
         e = {
             'title_DE': form.data['title_DE'],
             'title_EN': form.data['title_EN'],
             'release_date': form.data['release_date'], 
-            'isReleased': form.data['isReleased']
+            'isReleased': form.data['isReleased'],
+            'image_url' :  str(url_for('static', filename= 'movies/' + filename))
         }
         print(e)
         Movie.addMovie(e)
@@ -109,6 +140,7 @@ def edit_movie():
             movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
+            form.image_url.data = movie.image_url
        
     return render_template('edit.html', title='Edit Movie',form=form)
 
@@ -161,4 +193,40 @@ def delete_post():
 ####################### ABOUT    ##############################
 
 
+####################### IMAGE UPLOAD src: https://gist.github.com/greyli/ca74d71f13c52d089a8da8d2b758d519 ##############################
 
+photos = UploadSet('photos', IMAGES)
+configure_uploads(app, photos)
+patch_request_class(app)  # set maximum file size, default is 16MB
+
+class UploadForm(FlaskForm):
+    photo = FileField(validators=[FileAllowed(photos, u'Image Only!'), FileRequired(u'Choose a file!')])
+    submit = SubmitField(u'Upload')
+
+@app.route('/upload', methods=['GET', 'POST'])
+def upload_file():
+    form = UploadForm()
+    if form.validate_on_submit():
+        for filename in request.files.getlist('photo'):
+            photos.save(filename)
+        success = True
+    else:
+        success = False
+    return render_template('upload.html', form=form, success=success)
+
+@app.route('/manage')
+def manage_file():
+    files_list = os.listdir(app.config['UPLOADED_PHOTOS_DEST'])
+    return render_template('manage.html', files_list=files_list)
+
+
+@app.route('/delete/<filename>')
+def delete_file(filename):
+    file_path = photos.path(filename)
+    os.remove(file_path)
+    return redirect(url_for('manage_file'))
+
+@app.route('/open/<filename>')
+def open_file(filename):
+    file_url = photos.url(filename)
+    return render_template('browser.html', file_url = file_url, filename = filename)

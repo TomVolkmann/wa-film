@@ -92,11 +92,13 @@ class Movie(db.Model):
     sound_mix = db.Column(db.String)
     color = db.Column(db.String)
 
+    image_url = db.Column(db.String)
+
     #referring  to the secondary table
     contacts = db.relationship("Contact",secondary='link')
 
     def addMovie(input):   
-        movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
+        movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"], image_url = input["image_url"])
         #contact = Contact(name=input['contact'])
 
         #movie.contacts.append(contact)
