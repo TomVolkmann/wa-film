@@ -93,6 +93,10 @@ def movie(movietitle):
 
     #Get Movie id
     movie_result = Movie.query.filter_by(title_DE = movietitle).first()
+    print(movie_result)
+    director_list = movie_result.directors.split(",")
+    directors = Contact.getContacts(director_list)
+    print(directors)
 
     #Create Movie Object
     movie = {
@@ -100,35 +104,35 @@ def movie(movietitle):
         'title_EN': movie_result.title_EN,
         'release_date': movie_result.release_date, 
         'isReleased': movie_result.isReleased,
-        'directors': None,
-        'producers': None
+        'directors': directors,
+        # 'producers': None
     }
     
-    #Check if Movie has associated Contacts 
-    movie_contacts = Movie_Contact.query.filter_by(movie_id = movie_result.id).all()
+    # #Check if Movie has associated Contacts 
+    # movie_contacts = Movie_Contact.query.filter_by(movie_id = movie_result.id).all()
 
-    if movie_contacts:
-        print("Not Empty")
-        result = (db.session.query(Movie_Contact,Contact)
-            .join(Contact, Contact.id == Movie_Contact.contact_id)
-            .filter(Movie_Contact.movie_id == movie_result.id)
-            ).all()
-        print(result)
-        movie = assign_contacts(result,movie)
-        print(movie)
-    else:
-        print("Empty") 
+    # if movie_contacts:
+    #     print("Not Empty")
+    #     result = (db.session.query(Movie_Contact,Contact)
+    #         .join(Contact, Contact.id == Movie_Contact.contact_id)
+    #         .filter(Movie_Contact.movie_id == movie_result.id)
+    #         ).all()
+    #     print(result)
+    #     movie = assign_contacts(result,movie)
+    #     print(movie)
+    # else:
+    #     print("Empty") 
 
     return render_template('movie.html',movie=movie)
 
 
-def assign_contacts(data,movie):
-    for data_block in data:
-        movie_contact = data_block.[0]
-        contact = data_block.[1]
-        if(movie_contact.contact_type == "directors"):
-            movie.directors == contact.name
-    return movie
+# def assign_contacts(data,movie):
+#     for data_block in data:
+#         movie_contact = data_block.[0]
+#         contact = data_block.[1]
+#         if(movie_contact.contact_type == "directors"):
+#             movie.directors == contact.name
+#     return movie
 
 
 @app.route('/edit_movie', methods=['GET', 'POST'])

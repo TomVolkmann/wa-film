@@ -3,9 +3,30 @@
 {% block app_content %}
   <h3 >{{movie.title_DE }}</h3 >
     <div>
-      {{movie.isReleased}}
-      {{movie.contact_id}}
-      {{movie.contact_type}}
+      <p>Movie Title EN: {{movie.title_EN}}</p>
+      <p>Release Date: {{movie.release_date}}</p>
+      <p>Ist es Released: {{movie.isReleased}}</p>
 
+      <p>Credits List</p>
+      <p> Directors:
+      {%for director in movie.directors%}
+        {{director}} |
+      {%endfor%}
+      </p>
+      <p> Producers:
+          {%for producer in movie.producers%}
+            {{producer}} |
+          {%endfor%}
+      </p>
+      <p> Executive Producers:
+          {%for executive_producer in movie.executive_producers%}
+            {{executive_producer}} |
+          {%endfor%}
+      </p>
+      <p> Editors:
+          {%for editor in movie.editors%}
+            {{editor}} |
+          {%endfor%}
+      </p>
     </div >
 {%endblock%}

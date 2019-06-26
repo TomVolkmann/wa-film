@@ -97,28 +97,17 @@ class Movie(db.Model):
     # contacts = db.relationship("Contact",secondary='link')
 
     def addMovie(input):   
-        movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
+
+        directors_str = create_String(input['directors'])
+
+        movie = Movie(
+            title_DE=input["title_DE"],
+            title_EN=input["title_EN"],
+            isReleased=input["isReleased"],
+            release_date=input["release_date"],
+            directors = directors_str
+        )
         db.session.add(movie)
-        db.session.commit()
-
-        contacts_id = input['directors']
-        for contact_id in contacts_id:
-            print(contact_id)
-            contact = Contact.getContact(contact_id)
-            movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Director") 
-            db.session.add(movie_contact)
-            db.session.commit()
-        
-        contacts_id_2 = input['producers']
-        for contact_id_2 in contacts_id_2:
-            print(contact_id_2)
-            contact = Contact.getContact(contact_id_2)
-            movie_contact = Movie_Contact(movie=movie,contact=contact,contact_type="Producer") 
-            db.session.add(movie_contact)
-            db.session.commit()
-        
-
-
         db.session.commit()
         db.session.close()
 
@@ -148,6 +137,14 @@ class Contact(db.Model):
         record = db.session.query(Contact).filter(Contact.id == contact_id).first()
         db.session.close()
         return record
+    
+    def getContacts(contact_ids):
+        name_list = []
+        for contact_id in contact_ids:
+            contact = db.session.query(Contact).filter(Contact.id == contact_id).first()
+            name_list.append(contact.name)
+        db.session.close()
+        return name_list
 
     def deleteContact(id):
         movie_contacts = db.session.query(Movie_Contact).filter(Movie_Contact.contact_id == id).all()
@@ -170,3 +167,13 @@ class Movie_Contact(db.Model):
 
     contact = db.relationship(Contact, backref="contacts")
     movie = db.relationship(Movie, backref="movies")
+
+def create_String(contacts):
+    contact_str = ""
+    for contact in contacts:
+        print(contact)
+        if len(contact_str)>0:
+            contact_str+=","
+        contact_str+=str(contact)
+    return contact_str
+    
