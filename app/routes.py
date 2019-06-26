@@ -28,9 +28,9 @@ def development():
 @app.route('/dashboard', methods=['GET', 'POST'])
 def dashboard():
     movies = Movie.query.all()
-    posts = Post.query.all()
-    contacts = Contact.query.all()
-    return render_template('dashboard.html', movies = movies,posts=posts,contacts=contacts)
+    # posts = Post.query.all()
+    # contacts = Contact.query.all()
+    return render_template('dashboard_movies.html', movies = movies)
 
 @app.route('/about')
 def about(): 
