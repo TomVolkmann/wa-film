@@ -92,9 +92,42 @@ def movie(movietitle):
     producers = Contact.getContacts(movie_result.producers.split(","))
     executive_producers = Contact.getContacts(movie_result.executive_producers.split(","))
     editors = Contact.getContacts(movie_result.editors.split(","))
+    cinematography = Contact.getContacts(movie_result.cinematography.split(","))
     sound_recordist = Contact.getContacts(movie_result.sound_recordist.split(","))
     sound_mix = Contact.getContacts(movie_result.sound_mix.split(","))
     color = Contact.getContacts(movie_result.color.split(","))
+
+    isColored = ""
+    if movie_result.isColored == "b_w": 
+        isColored = "Black & White" 
+    else: 
+        isColored = "Color"
+
+    if movie_result.format: 
+        format = movie_result.format.split(";")
+    else: 
+        format = []
+
+    if movie_result.language: 
+        language = movie_result.language.split(";") 
+    else: 
+        language = []
+
+    if movie_result.awards: 
+        awards = movie_result.awards.split(";") 
+    else: 
+        awards = []
+
+    if movie_result.screenings: 
+        screenings = movie_result.screenings.split(";") 
+    else: 
+        screenings = []
+
+    if movie_result.supporters: 
+        supporters = movie_result.supporters.split(";") 
+    else: 
+        supporters = []
+    
 
     #Create Movie Object
     movie = {
@@ -102,14 +135,27 @@ def movie(movietitle):
         'title_EN': movie_result.title_EN,
         'release_date': movie_result.release_date, 
         'isReleased': movie_result.isReleased,
+        'format': format,
+        'isColored': isColored,
+        'language': language,
+        'duration': movie_result.duration,
+
+        'synopsis': movie_result.synopsis,
+        'awards': awards,
+        'screenings': screenings,
+        'supporters': supporters,
+
         'directors': directors,
         'producers': producers,
         'executive_producers': executive_producers,
         'editors': editors,
+        'cinematography': cinematography,
         'sound_recordist': sound_recordist,
         'sound_mix': sound_mix,
         'color': color
     }
+
+    print(movie)
 
     return render_template('movie.html',movie=movie)
 
@@ -135,10 +181,21 @@ def edit_movie():
             'title_EN': form.data['title_EN'],
             'release_date': form.data['release_date'], 
             'isReleased': form.data['isReleased'],
+            'format': form.data['format'],
+            'isColored': form.data['isColored'],
+            'language': form.data['language'],
+            'duration': form.data['duration'],
+
+            'synopsis': form.data['synopsis'],
+            'awards': form.data['awards'],
+            'screenings': form.data['screenings'],
+            'supporters': form.data['supporters'],
+
             'directors': form.data['directors'],
             'producers': form.data['producers'],
             'executive_producers': form.data['executive_producers'],
             'editors': form.data['editors'],
+            'cinematography': form.data['cinematography'],
             'sound_recordist': form.data['sound_recordist'],
             'sound_mix': form.data['sound_mix'],
             'color': form.data['color'] 
@@ -161,7 +218,7 @@ def edit_movie():
 def delete_movie():
     id = int(request.args.get("id"))
     Movie.deleteMovie(id)
-    return redirect(url_for('index'))
+    return redirect(url_for('dashboard'))
 
 ####################### POSTS ##############################
 

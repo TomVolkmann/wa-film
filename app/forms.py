@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField,SelectMultipleField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField,SelectMultipleField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User, Contact
 
@@ -9,10 +9,11 @@ class PostMovieForm(FlaskForm):
     isReleased = BooleanField("Is Released ?")
     release_date = StringField()
     format = StringField()
-    isColored = BooleanField("Color or Black and White ?")
+    isColored = SelectField('Color',choices=[('Col', 'Color'), ('b_w', 'Black & White')])
     language = StringField()
     duration = StringField()
-    synopsis = StringField()
+
+    synopsis = TextAreaField()
     awards = StringField()
     screenings = StringField()
     supporters = StringField()

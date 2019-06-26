@@ -102,7 +102,8 @@ class Movie(db.Model):
         producers_str = create_String(input['producers'])
         executive_producers_str = create_String(input['executive_producers'])
         editors_str = create_String(input['editors'])
-        sound_recordist_str = create_String(input['sound_mix'])
+        cinematography_str = create_String(input['cinematography'])
+        sound_recordist_str = create_String(input['sound_recordist'])
         sound_mix_str = create_String(input['sound_mix'])
         color_str = create_String(input['color'])
 
@@ -111,10 +112,21 @@ class Movie(db.Model):
             title_EN=input["title_EN"],
             isReleased=input["isReleased"],
             release_date=input["release_date"],
+            format=input["format"],
+            isColored=input["isColored"],
+            language=input["language"],
+            duration=input["duration"],
+
+            synopsis=input["synopsis"],
+            awards=input["awards"],
+            screenings=input["screenings"],
+            supporters=input["supporters"],
+
             directors = directors_str,
             producers = producers_str,
             executive_producers = executive_producers_str,
             editors = editors_str,
+            cinematography = cinematography_str,
             sound_recordist = sound_recordist_str,
             sound_mix = sound_mix_str,
             color = color_str
@@ -154,7 +166,8 @@ class Contact(db.Model):
         name_list = []
         for contact_id in contact_ids:
             contact = db.session.query(Contact).filter(Contact.id == contact_id).first()
-            name_list.append(contact.name)
+            if contact:
+                name_list.append(contact.name)
         db.session.close()
         return name_list
 
@@ -182,10 +195,11 @@ class Movie_Contact(db.Model):
 
 def create_String(contacts):
     contact_str = ""
-    for contact in contacts:
-        print(contact)
-        if len(contact_str)>0:
-            contact_str+=","
-        contact_str+=str(contact)
+    if contacts: 
+        for contact in contacts:
+            print(contact)
+            if len(contact_str)>0:
+                contact_str+=","
+            contact_str+=str(contact)
     return contact_str
     

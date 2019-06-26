@@ -4,50 +4,113 @@
   <h3 >{{movie.title_DE }}</h3 >
     <div>
       <p>Movie Title EN: {{movie.title_EN}}</p>
+      {% if movie.release_date | length > 0 %}
       <p>Release Date: {{movie.release_date}}</p>
-      <p>Ist es Released: {{movie.isReleased}}</p>
+      {%endif%}
+      {% if movie.format | length > 0 %}
+      <p>Format:
+          {%for frm in movie.format%}
+            {{frm}} {% if ((movie.format | length > 1) and (not loop.last)) %}|{%endif%}
+          {%endfor%}
+      </p>
+      {%endif%}
+      <p>Is Colored?: {{movie.isColored}}</p>
+      {% if movie.language | length > 0 %}
+      <p> Language:
+          {%for lng in movie.language%}
+            {{lng}} {% if ((movie.language | length > 1) and (not loop.last)) %}|{%endif%}
+          {%endfor%}
+      </p>
+      {%endif%}
+      {% if movie.duration | length > 0 %}
+      <p>Duration: {{movie.duration}}</p>
+      {%endif%}
     </div>
+    <br>
+    <div>
+      {% if movie.synopsis | length > 0 %}
+      <p>Synopsis: {{movie.synopsis}}</p>
+      {%endif%}
+      {% if movie.awards | length > 0 %}
+      <p>Awards:
+          {%for award in movie.awards%}
+            {{award}} {% if ((movie.awards | length > 1) and (not loop.last)) %}|{%endif%}
+          {%endfor%}
+      </p>
+      {%endif%}
+      {% if movie.screenings | length > 0 %}
+      <p>Screenings:
+          {%for screening in movie.screenings%}
+            {{screening}} {% if ((movie.screenings | length > 1) and (not loop.last)) %}|{%endif%}
+          {%endfor%}
+      </p>
+      {%endif%}
+      {% if movie.supporters | length > 0 %}
+      <p>Supporters:
+          {%for supporter in movie.supporters%}
+            {{supporter}} {% if ((movie.supporters | length > 1) and (not loop.last)) %}|{%endif%}
+          {%endfor%}
+      </p>
+      {%endif%}
+    </div>
+    <br>
     <div>
       <p>Credits List</p>
+      {% if movie.directors | length > 0 %}
       <p> Directors:
       {%for director in movie.directors%}
-        {{director}} |
+        {{director}} {% if ((movie.directors | length > 1) and (not loop.last)) %}|{%endif%}
       {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.producers | length > 0 %}
       <p> Producers:
           {%for producer in movie.producers%}
-            {{producer}} {% if producers | length > 0 %}|{%endif%}
+            {{producer}} {% if ((movie.producers | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.executive_producers | length > 0 %}
       <p> Executive Producers:
           {%for executive_producer in movie.executive_producers%}
-            {{executive_producer}} {% if executive_producers | length > 0 %}|{%endif%}
+            {{executive_producer}} {% if ((movie.executive_producers | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.editors | length > 0 %}
       <p> Editors:
           {%for editor in movie.editors%}
-            {{editor}} {% if editors | length > 0 %}|{%endif%}
+            {{editor}} {% if ((movie.editors | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.cinematography | length > 0 %}
       <p> Cinematography:
           {%for cinematograph in movie.cinematography%}
-            {{cinematograph}} {% if cinematography | length > 0 %}|{%endif%}
+            {{cinematograph}} {% if ((movie.cinematography | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.sound_recordist | length > 0 %}
       <p> Sound Recordist:
           {%for sound_record in movie.sound_recordist%}
-            {{sound_record}} {% if sound_recordist | length > 0 %}|{%endif%}
+            {{sound_record}} {% if ((movie.sound_recordist | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.sound_mix | length > 0 %}
       <p> Sound Mix:
           {%for sound_mi in movie.sound_mix%}
-            {{sound_mi}} {% if sound_mix | length > 0 %}|{%endif%}
+            {{sound_mi}} {% if ((movie.sound_mix | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
+      {% if movie.color | length > 0 %}
       <p> Color:
           {%for colo in movie.color%}
-            {{colo}} {% if color | length > 0 %}|{%endif%}
+            {{colo}} {% if ((movie.color | length > 1) and (not loop.last)) %}|{%endif%}
           {%endfor%}
       </p>
+      {%endif%}
     </div >
 {%endblock%}
