@@ -11,7 +11,6 @@ from werkzeug.exceptions import abort
 
 @app.route('/')
 @app.route('/index')
-@login_required
 def index():
     return render_template("index.html", title='Home Page')
 
@@ -86,20 +85,51 @@ def logout():
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
     #movie = Movie.query.filter_by(title_DE = movietitle).join(Movie_Contact, Movie_Contact.movie_id == Movie.id).first()
-    results = (db.session.query(Movie_Contact,Movie,Contact)
-        .join(Movie, Movie.id == Movie_Contact.movie_id)
-        .join(Contact, Contact.id == Movie_Contact.contact_id)
-        .filter(Movie.title_DE == movietitle)
-        ).all()
-    print(results)
-    print(results[0])
+    # results = (db.session.query(Movie_Contact,Movie,Contact)
+    #     .join(Movie, Movie.id == Movie_Contact.movie_id)
+    #     .join(Contact, Contact.id == Movie_Contact.contact_id)
+    #     .filter(Movie.title_DE == movietitle)
+    #     ).all()
 
-    # movieContact = results[0]
-    # movie = results[1]
-    # contact = results[2]
+    #Get Movie id
+    movie_result = Movie.query.filter_by(title_DE = movietitle).first()
 
+    #Create Movie Object
+    movie = {
+        'title_DE': movie_result.title_DE,
+        'title_EN': movie_result.title_EN,
+        'release_date': movie_result.release_date, 
+        'isReleased': movie_result.isReleased,
+        'directors': None,
+        'producers': None
+    }
+    
+    #Check if Movie has associated Contacts 
+    movie_contacts = Movie_Contact.query.filter_by(movie_id = movie_result.id).all()
+
+    if movie_contacts:
+        print("Not Empty")
+        result = (db.session.query(Movie_Contact,Contact)
+            .join(Contact, Contact.id == Movie_Contact.contact_id)
+            .filter(Movie_Contact.movie_id == movie_result.id)
+            ).all()
+        print(result)
+        movie = assign_contacts(result,movie)
+        print(movie)
+    else:
+        print("Empty") 
 
     return render_template('movie.html',movie=movie)
+
+
+def assign_contacts(data,movie):
+    for data_block in data:
+        movie_contact = data_block.[0]
+        contact = data_block.[1]
+        if(movie_contact.contact_type == "directors"):
+            movie.directors == contact.name
+    return movie
+
 
 @app.route('/edit_movie', methods=['GET', 'POST'])
 @login_required
