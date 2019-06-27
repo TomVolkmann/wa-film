@@ -1,20 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-
-<div class="col" id="divider"><hr></div>
-
-  {% if movies | length > 0 %}
-    {%for movie in movies%}
-    <div class="row">
-      <div class="col-md-3">{% include '_movie_preview.html' %}
-      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button> </div>
+<div class="row"> 
+    <div class="column">
+      <img src="/static/movies/Bad_Boys_2.jpg">
     </div>
-
-    {%endfor%}
-{%else%}
-  <i>No movie yet.</i>
-{%endif%}
+    <div class="column">
+      <img src="/static/movies/220px-Men_In_Black_3.jpg">
+    </div> 
+    <div class="column">
+        <img src="/static/movies/Gladiator.jpg">
+    </div>
+  </div>
 {%endblock%}
 
 

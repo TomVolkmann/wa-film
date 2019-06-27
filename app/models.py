@@ -177,26 +177,10 @@ class Contact(db.Model):
         return name_list
 
     def deleteContact(id):
-        movie_contacts = db.session.query(Movie_Contact).filter(Movie_Contact.contact_id == id).all()
-        for mc in movie_contacts: 
-            db.session.delete(mc)
-            db.session.commit()
-
         db.session.delete(Contact.getContact(id))
 
         db.session.commit()
         db.session.close() 
-
-class Movie_Contact(db.Model):
-    __tablename__ = 'movie_contacts'
-
-    id = db.Column('id', db.Integer, primary_key=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'))
-    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'))
-    contact_type = db.Column(db.String)
-
-    contact = db.relationship(Contact, backref="contacts")
-    movie = db.relationship(Movie, backref="movies")
 
 def create_String(contacts):
     contact_str = ""

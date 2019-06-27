@@ -3,7 +3,7 @@ from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request, send_from_directory
 from app.forms import LoginForm, PostMovieForm, PostNewsForm,  ContactForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movie, Post, Contact,Movie_Contact
+from app.models import User, Movie, Post, Contact
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
 
