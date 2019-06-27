@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+
+<div class="row" >
+    <img id="header" src="/static/Header1.jpg" alt="My image"/>
+</div>
     <li><a href="{{ url_for('completed') }}">Completed Movies</a></li>
     <li><a href="{{ url_for('development') }}">Movies in Development</a></li>
     <li><a href="{{ url_for('news') }}">News</a></li>
