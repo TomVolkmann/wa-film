@@ -1,6 +1,8 @@
-    <div>
-      <img src="/static/Film-Plakat.jpg" alt="Default Movie Poster"/>
-      <h3 >{{movie.title_DE }}</h3 >
-        {{movie.release_date}}
-    </div >
+<div>
+  <a href='/movies/{{movie.title_DE}}'class="mov_img_preview">
+    <img src="{{movie.image_url}}" alt="Default Movie Poster"/>
+  </a>
+  <h3 >{{movie.title_DE }}|{{movie.title_EN}} {{movie.release_date}}</h3 > 
+</div>
+
 

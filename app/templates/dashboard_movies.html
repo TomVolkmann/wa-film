@@ -8,7 +8,7 @@
 </div>
 
 <div class="container">
-
+  {% include '_dashboard.html' %}
   <h1>Movies</h1>
   <button onclick ="window.location = '/edit_movie';"> Add Movie</button>
   {% if movies | length > 0 %}
@@ -23,6 +23,7 @@
   {%else%}
     <i>No movie yet.</i>
   {%endif%}
+<<<<<<< HEAD:app/templates/dashboard.html
 
 
   <h1>Post</h1>
@@ -41,4 +42,6 @@
   {%endif%}
 
 </div>
+=======
+>>>>>>> master:app/templates/dashboard_movies.html
 {%endblock%}

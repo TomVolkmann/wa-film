@@ -92,17 +92,56 @@ class Movie(db.Model):
     sound_mix = db.Column(db.String)
     color = db.Column(db.String)
 
+    image_url = db.Column(db.String)
+
     #referring  to the secondary table
-    contacts = db.relationship("Contact",secondary='link')
+    # contacts = db.relationship("Contact",secondary='link')
 
-    def addMovie(input):   
-        movie = Movie(title_DE=input["title_DE"],title_EN=input["title_EN"],isReleased=input["isReleased"],release_date=input["release_date"])
-        #contact = Contact(name=input['contact'])
+    def addMovie(input, imageIncluded):   
 
-        #movie.contacts.append(contact)
+        directors_str = create_String(input['directors'])
+        producers_str = create_String(input['producers'])
+        executive_producers_str = create_String(input['executive_producers'])
+        editors_str = create_String(input['editors'])
+        cinematography_str = create_String(input['cinematography'])
+        sound_recordist_str = create_String(input['sound_recordist'])
+        sound_mix_str = create_String(input['sound_mix'])
+        color_str = create_String(input['color'])
 
+        movie = Movie(
+                title_DE=input["title_DE"],
+                title_EN=input["title_EN"],
+                isReleased=input["isReleased"],
+                release_date=input["release_date"],
+                format=input["format"],
+                isColored=input["isColored"],
+                language=input["language"],
+                duration=input["duration"],
+
+                synopsis=input["synopsis"],
+                awards=input["awards"],
+                screenings=input["screenings"],
+                supporters=input["supporters"],
+
+                directors = directors_str,
+                producers = producers_str,
+                executive_producers = executive_producers_str,
+                editors = editors_str,
+                cinematography = cinematography_str,
+                sound_recordist = sound_recordist_str,
+                sound_mix = sound_mix_str,
+                color = color_str
+        )
+        if imageIncluded:
+            movie.image_url = input["image_url"]
+        
+        record = db.session.query(Movie).filter(Movie.title_DE == input["title_DE"]).first()
+        if not record:
+            print("record jibts nischt")
+            db.session.add(movie)
+
+        db.session.delete(record)
         db.session.add(movie)
-        #db.session.add(contact)
         db.session.commit()
         db.session.close()
 
@@ -121,9 +160,42 @@ class Contact(db.Model):
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
 
-    #referring  to the secondary table
-    movies = relationship("Movie",secondary='link')
+    def addContact(input):   
+        contact = Contact(name=input["name"])
+        
+        db.session.add(contact)
+        db.session.commit()
+        db.session.close()
 
-class Link(db.Model):
-    movies_id = db.Column(db.Integer, ForeignKey('movies.id'), primary_key = True)
-    contact_id = db.Column(db.Integer, ForeignKey('contacts.id'), primary_key = True)
+    def getContact(contact_id):
+        record = db.session.query(Contact).filter(Contact.id == contact_id).first()
+        db.session.close()
+        return record
+    
+    def getContacts(contact_list):
+        name_list = []
+        if contact_list:
+            contact_ids = contact_list.split(",")
+            for contact_id in contact_ids:
+                contact = db.session.query(Contact).filter(Contact.id == contact_id).first()
+                if contact:
+                    name_list.append(contact.name)
+            db.session.close()
+        return name_list
+
+    def deleteContact(id):
+        db.session.delete(Contact.getContact(id))
+
+        db.session.commit()
+        db.session.close() 
+
+def create_String(contacts):
+    contact_str = ""
+    if contacts: 
+        for contact in contacts:
+            print(contact)
+            if len(contact_str)>0:
+                contact_str+=","
+            contact_str+=str(contact)
+    return contact_str
+    
