@@ -13,9 +13,7 @@ function activeClass() {
       if (LinkURL === CurrentURL) {
         $(this).parents("li").addClass("active");
       }
-      if(LinkURL !== CurrentURL){
-          dashboard.addClass("active");
-      }
+
     });
   }
   activeClass();
