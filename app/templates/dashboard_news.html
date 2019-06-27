@@ -1,5 +1,15 @@
 {% extends "base.html" %}
-{% block app_content %}
+{% block content %}
+
+<div class="row">
+    <img id="header" src="/static/Header1.jpg" alt="My image"/>
+    <div class="col-md-3"></div>
+  </div>
+  
+  <div class="container">
+      <div class="col" id="divider"><hr></div>
+
+
   {% include '_dashboard.html' %}
   <h1>News</h1>
   <button onclick ="window.location = '/edit_post';"> Add Post</button>
@@ -15,4 +25,7 @@
   {%else%}
     <i>No post yet.</i>
   {%endif%}
+
+  
+  </div>
 {%endblock%}
