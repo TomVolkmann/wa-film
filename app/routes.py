@@ -203,6 +203,8 @@ def movie(movietitle):
 def edit_movie():
     
     form = PostMovieForm()
+        # filename = request.files.get('photo')
+        # photos.save(filename)
 
     form.directors.choices = [(director.id, director.name) for director in Contact.query.all()]
     form.producers.choices = [(producer.id, producer.name) for producer in Contact.query.all()]
@@ -215,7 +217,6 @@ def edit_movie():
 
      
     if form.validate_on_submit():
-
         file = request.files['image_url']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)

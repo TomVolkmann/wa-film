@@ -1,14 +1,17 @@
 {% extends "base.html" %}
 
 {% block app_content %}
-  {% if movies | length > 0 %}
-    {%for movie in movies%}
-      {% include '_movie_preview.html' %}
-      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
-    {%endfor%}
-{%else%}
-  <i>No movie yet.</i>
-{%endif%}
+<div class="row"> 
+    <div class="column">
+      <img src="/static/movies/Bad_Boys_2.jpg">
+    </div>
+    <div class="column">
+      <img src="/static/movies/220px-Men_In_Black_3.jpg">
+    </div> 
+    <div class="column">
+        <img src="/static/movies/Gladiator.jpg">
+    </div>
+  </div>
 {%endblock%}
 
 
