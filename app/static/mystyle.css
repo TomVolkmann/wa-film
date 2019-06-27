@@ -1,43 +1,97 @@
+/*       BASE         */
+
 #header {
-  background-image:url("BlueSky.jpg");
+  width: 100%;
+  height: auto;
   background-size: cover;
   margin: 0px;
   padding: 0px;
 }
 
-html, body {
-  height: 100%;
-  margin: 0;
-  padding: 0;
-}
-
-.navbar.navbar-inverse {
-  padding: 10px 0;
- /* background: rgba(0, 0, 0, 0)!important;
-  border-color: transparent;*/
-  border: none;
-  margin-bottom: 0;
-}
-
 .navbar-inverse{
   border-color: #00000000 !important;
-}
-
-.navbar.navbar-inverse .navbar-collapse, .navbar.navbar-inverse, .navbar-inverse .navbar-form{
-  padding: 10px 0;
- /* background: rgba(0, 0, 0, 0)!important;
-  border-color: transparent;*/
-  border: none;
-  margin-bottom: 0;
+  width: 100%
 }
 
 #divider{
   color: rgba(0, 0, 0, 0)!important;
 }
 
-.navbar-light .navbar-nav .nav-link {
-  color: black;
+
+a {
+  color: white !important;
 }
+
+ul.nav a:hover { 
+  color: #000 !important;
+}
+
+/*       HOME-PAGE        */
+
+
+#homepage-image{
+  position: fixed; 
+  top: 0; 
+  left: 0; 
+  min-width: 100%;
+  min-height: 100%;
+}
+
+#left-links {
+  width: 100%;
+  text-align: right;
+}
+#left-links > li {
+   float: none;
+   display: inline-block;
+   font-size: 1.5em;
+ }
+
+
+#centered-links {
+  width: 100%;
+  text-align: center;
+}
+#centered-links > a, #centered-links > li {
+  float: none;
+  display: inline-block;
+  font-size: 1.5em;
+}
+
+#home-navigation{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 99999;
+}
+
+.Homepage-Image {
+  position: relative;
+  text-align: center;
+}
+
+.centered {
+  color:white;
+  font: bold;
+  font-size: 2.3em;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -180%);
+  z-index: 99998;
+}
+
+
+  
+/*      OTHER      */
+
+
+html, body {
+  max-width: 100%;
+  overflow-x: hidden;
+}
+
 
 .masthead {
   height: 100vh;

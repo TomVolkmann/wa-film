@@ -1,5 +1,13 @@
 {% extends "base.html" %}
-{% block app_content %}
+
+{% block content %}
+
+<div class="row">
+  <img id="header" src="/static/Header1.jpg" alt="My image"/>
+  <div class="col-md-3"></div>
+</div>
+
+<div class="container">
   {% include '_dashboard.html' %}
   <h1>Movies</h1>
   <button onclick ="window.location = '/edit_movie';"> Add Movie</button>
@@ -15,4 +23,25 @@
   {%else%}
     <i>No movie yet.</i>
   {%endif%}
+<<<<<<< HEAD:app/templates/dashboard.html
+
+
+  <h1>Post</h1>
+  <button onclick ="window.location = '/edit_post';"> Add Post</button>
+  {% if posts | length > 0 %}
+    {%for post in posts%}
+        <div>
+          {% include '_post.html' %}
+          <button onclick ="window.location = '/posts/{{post.title}}';"> See </button>
+          <button onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
+          <button onclick ="window.location = '/delete_post?id={{post.id}}';"> Delete </button>
+        </div>
+    {%endfor%}
+  {%else%}
+    <i>No post yet.</i>
+  {%endif%}
+
+</div>
+=======
+>>>>>>> master:app/templates/dashboard_movies.html
 {%endblock%}

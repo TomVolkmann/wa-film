@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block app_content %}
+{% block content %}
+
+<div class="row">
+  <img id="header" src="/static/Header1.jpg" alt="My image"/>
+  <div class="col-md-3"></div>
+</div>
+
+<div class="container">
+
   {% if movies | length > 0 %}
     {%for movie in movies%}
       {% include '_movie_preview.html' %}
@@ -8,4 +16,7 @@
 {%else%}
   <i>No movie yet.</i>
 {%endif%}
+
+</div>
+
 {%endblock%}
