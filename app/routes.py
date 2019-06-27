@@ -26,11 +26,10 @@ def development():
 
 @login_required
 @app.route('/dashboard', methods=['GET', 'POST'])
+@app.route ('/dashboard_movies')
 def dashboard():
     movies = Movie.query.all()
-    posts = Post.query.all()
-    contacts = Contact.query.all()
-    return render_template('dashboard.html', movies = movies,posts=posts,contacts=contacts)
+    return render_template('dashboard_movies.html', movies = movies)
 
 @app.route('/about')
 def about(): 
@@ -312,8 +311,25 @@ def delete_contact():
     Contact.deleteContact(id)
     return redirect(url_for('index'))
 
+####################### Dashboard    ##############################
+@app.route ('/dashboard_contacts')
+def dashboard_contacts():
+    contacts = Contact.query.all()
+    return render_template('dashboard_contacts.html',contacts=contacts)
 
-####################### ABOUT    ##############################
+@app.route ('/dashboard_news')
+def dashboard_news():
+    posts = Post.query.all()
+    return render_template('dashboard_news.html',posts=posts)
 
+@app.route ('/dashboard_info')
+def dashboard_info():
+    posts = Post.query.all()
+    return render_template('dashboard_info.html',posts=posts)
+
+@app.route ('/dashboard_design')
+def dashboard_design():
+    posts = Post.query.all()
+    return render_template('dashboard_design.html',posts=posts)
 
 
