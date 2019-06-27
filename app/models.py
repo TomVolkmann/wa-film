@@ -97,7 +97,7 @@ class Movie(db.Model):
     #referring  to the secondary table
     # contacts = db.relationship("Contact",secondary='link')
 
-    def addMovie(input):   
+    def addMovie(input, imageIncluded):   
 
         directors_str = create_String(input['directors'])
         producers_str = create_String(input['producers'])
@@ -109,31 +109,38 @@ class Movie(db.Model):
         color_str = create_String(input['color'])
 
         movie = Movie(
-            title_DE=input["title_DE"],
-            title_EN=input["title_EN"],
-            isReleased=input["isReleased"],
-            release_date=input["release_date"],
-            format=input["format"],
-            isColored=input["isColored"],
-            language=input["language"],
-            duration=input["duration"],
+                title_DE=input["title_DE"],
+                title_EN=input["title_EN"],
+                isReleased=input["isReleased"],
+                release_date=input["release_date"],
+                format=input["format"],
+                isColored=input["isColored"],
+                language=input["language"],
+                duration=input["duration"],
 
-            synopsis=input["synopsis"],
-            awards=input["awards"],
-            screenings=input["screenings"],
-            supporters=input["supporters"],
+                synopsis=input["synopsis"],
+                awards=input["awards"],
+                screenings=input["screenings"],
+                supporters=input["supporters"],
 
-            directors = directors_str,
-            producers = producers_str,
-            executive_producers = executive_producers_str,
-            editors = editors_str,
-            cinematography = cinematography_str,
-            sound_recordist = sound_recordist_str,
-            sound_mix = sound_mix_str,
-            color = color_str,
-
-            image_url = input["image_url"]
+                directors = directors_str,
+                producers = producers_str,
+                executive_producers = executive_producers_str,
+                editors = editors_str,
+                cinematography = cinematography_str,
+                sound_recordist = sound_recordist_str,
+                sound_mix = sound_mix_str,
+                color = color_str
         )
+        if imageIncluded:
+            movie.image_url = input["image_url"]
+        
+        record = db.session.query(Movie).filter(Movie.title_DE == input["title_DE"]).first()
+        if not record:
+            print("record jibts nischt")
+            db.session.add(movie)
+
+        db.session.delete(record)
         db.session.add(movie)
         db.session.commit()
         db.session.close()
@@ -177,26 +184,10 @@ class Contact(db.Model):
         return name_list
 
     def deleteContact(id):
-        movie_contacts = db.session.query(Movie_Contact).filter(Movie_Contact.contact_id == id).all()
-        for mc in movie_contacts: 
-            db.session.delete(mc)
-            db.session.commit()
-
         db.session.delete(Contact.getContact(id))
 
         db.session.commit()
         db.session.close() 
-
-class Movie_Contact(db.Model):
-    __tablename__ = 'movie_contacts'
-
-    id = db.Column('id', db.Integer, primary_key=True)
-    movie_id = db.Column(db.Integer, db.ForeignKey('movies.id'))
-    contact_id = db.Column(db.Integer, db.ForeignKey('contacts.id'))
-    contact_type = db.Column(db.String)
-
-    contact = db.relationship(Contact, backref="contacts")
-    movie = db.relationship(Movie, backref="movies")
 
 def create_String(contacts):
     contact_str = ""
