@@ -91,7 +91,8 @@ class Movie(db.Model):
     sound_recordist = db.Column(db.String)
     sound_mix = db.Column(db.String)
     color = db.Column(db.String)
-    img_url = db.Column(db.String)
+
+    image_url = db.Column(db.String)
 
     #referring  to the secondary table
     # contacts = db.relationship("Contact",secondary='link')
@@ -129,7 +130,9 @@ class Movie(db.Model):
             cinematography = cinematography_str,
             sound_recordist = sound_recordist_str,
             sound_mix = sound_mix_str,
-            color = color_str
+            color = color_str,
+
+            image_url = input["image_url"]
         )
         db.session.add(movie)
         db.session.commit()

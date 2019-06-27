@@ -1,7 +1,8 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, SelectField,SelectMultipleField, TextAreaField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, SelectField, SelectMultipleField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 from app.models import User, Contact
+from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class PostMovieForm(FlaskForm):
     title_DE = StringField("Movie Title German", validators=[DataRequired()])
@@ -26,6 +27,9 @@ class PostMovieForm(FlaskForm):
     sound_recordist = SelectMultipleField(choices=[], coerce=int)
     sound_mix = SelectMultipleField(choices=[], coerce=int)
     color = SelectMultipleField(choices=[], coerce=int)
+
+    #image_url = FileField(validators=[FileRequired(u'Choose a file!')])
+    image_url = FileField()
 
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
