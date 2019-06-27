@@ -203,14 +203,6 @@ def movie(movietitle):
 def edit_movie():
     
     form = PostMovieForm()
-
-    if form.validate_on_submit():
-
-        file = request.files['image_url']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
         # filename = request.files.get('photo')
         # photos.save(filename)
 
@@ -225,6 +217,12 @@ def edit_movie():
 
      
     if form.validate_on_submit():
+        
+        file = request.files['image_url']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
         #print(form.data['directors'][0])
         e = {
             'title_DE': form.data['title_DE'],
@@ -262,7 +260,7 @@ def edit_movie():
             movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
-            form.image_url.data = movie.image_url
+            form.image_url.file_url = movie.image_url
        
     return render_template('edit.html', title='Edit Movie',form=form)
 
