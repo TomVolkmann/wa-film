@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block app_content %}
+  {% include '_dashboard.html' %}
+  <h1>Contact</h1>
+  <button onclick ="window.location = '/edit_contact';"> Add Contact</button>
+  {% if contacts | length > 0 %}
+    {%for contact in contacts%}
+        <div>
+          {% include '_contact.html' %}
+          <button onclick ="window.location = '/contacts/{{contact.id}}';"> See </button>
+          <button onclick ="window.location = '/edit_contact?id={{contact.id}}';"> Edit </button>
+          <button onclick ="window.location = '/delete_contact?id={{contact.id}}';"> Delete </button>
+        </div>
+    {%endfor%}
+  {%else%}
+    <i>No contact yet.</i>
+  {%endif%}
+{%endblock%}

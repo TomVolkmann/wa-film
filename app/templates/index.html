@@ -5,6 +5,8 @@
 <div class="row" >
     <img id="header" src="/static/Header1.jpg" alt="My image"/>
 </div>
-
-    <h1>Hi, {{ current_user.username }}!</h1>
+    <li><a href="{{ url_for('completed') }}">Completed Movies</a></li>
+    <li><a href="{{ url_for('development') }}">Movies in Development</a></li>
+    <li><a href="{{ url_for('news') }}">News</a></li>
+    <li><a href="{{ url_for('about') }}">About</a></li>
 {% endblock %}
