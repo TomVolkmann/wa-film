@@ -1,22 +1,46 @@
 {% extends "base.html" %}
 
+
+{% block styles %}
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">
+{% endblock %}
+
 {% block content %}
 
 <div class="row">
   <img id="header" src="/static/Header1.jpg" alt="My image"/>
   <div class="col-md-3"></div>
 </div>
+<!-- 
+<div class="container-fluid"></div>
+  <div class="row">
+      <div class="col-sm-6 col-md-4">
+        <div class="thumbnail">
+            <img src="/static/movies/Bad_Boys_2.jpg">
+          <div class="caption">
+            <h3>Thumbnail label</h3>
+          </div>
+        </div>
+      </div>
+      <div class="col-sm-6 col-md-4">
+          <div class="thumbnail">
+              <img src="/static/movies/220px-Men_In_Black_3.jpg">
+            <div class="caption">
+              <h3>Thumbnail label</h3>
+            </div>
+          </div>
+        </div>
+        <div class="col-sm-6 col-md-4">
+            <div class="thumbnail">
+                <img src="/static/movies/Gladiator.jpg">
+              <div class="caption">
+                <h3>Thumbnail label</h3>
+              </div>
+            </div>
+          </div>
+  </div>
+</div> -->
 
-<div class="container">
-
-  {% if movies | length > 0 %}
-    {%for movie in movies%}
-      {% include '_movie_preview.html' %}
-    {%endfor%}
-{%else%}
-  <i>No movie yet.</i>
-{%endif%}
-
-</div>
 
 {%endblock%}

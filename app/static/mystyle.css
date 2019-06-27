@@ -108,23 +108,33 @@ html, body {
   background-repeat: no-repeat;
 }
 
-/* /* .row {
+.row_mov{
   display: flex;
   flex-wrap: wrap;
-  padding: 0 4px;
-} */
+  padding:0;
+  border:0px;
+  margin-left: 10px;
+  margin-right: 10px;
+} 
 
 /* Create four equal columns that sits next to each other */
-/* .column {
+.column_mov {
   flex: 33%;
-  max-width: 33%;
-  padding: 0 5px;
-} */
+  /* max-width: 33%; */
+  padding: 0px;
+  border:0px;
+  margin:0px;
+} 
 
-/* .column img {
-  margin-top: 8px;
+.column_mov img {
+  /* margin-top: 8px; */
   vertical-align: middle;
   width: 220px;
   height: 325px;
-} */
+  padding: 0px;
+  border:0px;
+  margin:0px;
+  
+
+} 
 
