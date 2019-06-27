@@ -25,7 +25,7 @@ ul.nav a:hover{
   color: #000 !important;
 }
 
-#productnav ul li.active  a {
+#productnav ul li.active  a, .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
   color: grey !important;
   background-color: transparent;
  }
