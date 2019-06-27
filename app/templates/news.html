@@ -8,6 +8,7 @@
 </div>
 
 <div class="container">
+    <div class="col" id="divider"><hr></div>
 
   {% if posts | length > 0 %}
     {%for post in posts%}
@@ -17,6 +18,7 @@
 {%else%}
   <i>No post yet.</i>
 {%endif%}
+
 </div>
 {%endblock%}
 
