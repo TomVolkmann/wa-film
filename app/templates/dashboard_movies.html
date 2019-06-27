@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block app_content %}
+  {% include '_dashboard.html' %}
+  <h1>Movies</h1>
+  <button onclick ="window.location = '/edit_movie';"> Add Movie</button>
+  {% if movies | length > 0 %}
+      {%for movie in movies%}
+      <div>
+        {% include '_movie_preview.html' %}
+        <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
+        <button onclick ="window.location = '/edit_movie?id={{movie.id}}';"> Edit </button>
+        <button onclick ="window.location = '/delete_movie?id={{movie.id}}';"> Delete </button>
+      </div>
+    {%endfor%}
+  {%else%}
+    <i>No movie yet.</i>
+  {%endif%}
+{%endblock%}

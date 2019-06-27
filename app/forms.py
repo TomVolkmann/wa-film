@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField
+from wtforms import StringField, PasswordField, BooleanField, SubmitField, FileField, SelectField, SelectMultipleField, TextAreaField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-from app.models import User
+from app.models import User, Contact
 from flask_wtf.file import FileField, FileRequired, FileAllowed
 
 class PostMovieForm(FlaskForm):
@@ -10,21 +10,23 @@ class PostMovieForm(FlaskForm):
     isReleased = BooleanField("Is Released ?")
     release_date = StringField()
     format = StringField()
-    isColored = BooleanField("Color or Black and White ?")
+    isColored = SelectField('Color',choices=[('Col', 'Color'), ('b_w', 'Black & White')])
     language = StringField()
     duration = StringField()
-    synopsis = StringField()
+
+    synopsis = TextAreaField()
     awards = StringField()
     screenings = StringField()
     supporters = StringField()
-    directors = StringField()
-    producers = StringField()
-    executive_producers = StringField()
-    editors = StringField()
-    cinematography = StringField()
-    sound_recordist = StringField()
-    sound_mix = StringField()
-    color = StringField()
+
+    directors = SelectMultipleField(choices=[], coerce=int)
+    producers = SelectMultipleField(choices=[], coerce=int)
+    executive_producers = SelectMultipleField(choices=[], coerce=int)
+    editors = SelectMultipleField(choices=[], coerce=int)
+    cinematography = SelectMultipleField(choices=[], coerce=int)
+    sound_recordist = SelectMultipleField(choices=[], coerce=int)
+    sound_mix = SelectMultipleField(choices=[], coerce=int)
+    color = SelectMultipleField(choices=[], coerce=int)
 
     #image_url = FileField(validators=[FileRequired(u'Choose a file!')])
     image_url = FileField()
@@ -56,4 +58,7 @@ class RegistrationForm(FlaskForm):
 class PostNewsForm(FlaskForm):
     title = StringField("News Post Title", validators=[DataRequired()])
     body = StringField("Post body", validators=[DataRequired()])
+
+class ContactForm(FlaskForm):
+    name = StringField(validators=[DataRequired()])
 
