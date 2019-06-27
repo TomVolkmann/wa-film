@@ -130,18 +130,41 @@ class Movie(db.Model):
                 cinematography = cinematography_str,
                 sound_recordist = sound_recordist_str,
                 sound_mix = sound_mix_str,
-                color = color_str
+                color = color_str,
+                image_url = ""
         )
-        if imageIncluded:
-            movie.image_url = input["image_url"]
-        
+      
         record = db.session.query(Movie).filter(Movie.title_DE == input["title_DE"]).first()
         if not record:
             print("record jibts nischt")
+            if imageIncluded:
+                movie.image_url = input["image_url"]
             db.session.add(movie)
+        else:
+            record.title_EN = movie.title_EN
+            record.isReleased=movie.isReleased
+            record.release_date=movie.release_date
+            record.format=movie.format
+            record.isColored=movie.isColored
+            record.language=movie.language
+            record.duration=movie.duration
+            record.synopsis=movie.synopsis
+            record.awards=movie.awards
+            record.screenings=movie.screenings
+            record.supporters=movie.supporters
+            record.directors = movie.directors
+            record.producers = movie.producers
+            record.executive_producers = movie.executive_producers
+            record.editors = movie.editors
+            record.cinematography = movie.cinematography
+            record.sound_recordist = movie.sound_recordist
+            record.sound_mix = movie.sound_mix
+            record.color = movie.color
 
-        db.session.delete(record)
-        db.session.add(movie)
+            if imageIncluded:
+                record.image_url = input["image_url"]
+            db.session.commit()
+
         db.session.commit()
         db.session.close()
 
