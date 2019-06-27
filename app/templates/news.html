@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block app_content %}
+{% block content %}
+
+<div class="row">
+  <img id="header" src="/static/Header1.jpg" alt="My image"/>
+  <div class="col-md-3"></div>
+</div>
+
+<div class="container">
+
   {% if posts | length > 0 %}
     {%for post in posts%}
       {% include '_post.html' %}
@@ -9,6 +17,7 @@
 {%else%}
   <i>No post yet.</i>
 {%endif%}
+</div>
 {%endblock%}
 
 

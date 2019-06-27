@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block app_content %}
+{% block content %}
+
+<div class="row">
+  <img id="header" src="/static/Header1.jpg" alt="My image"/>
+  <div class="col-md-3"></div>
+</div>
+
+<div class="container">
+
   <h1>Movies</h1>
   <button onclick ="window.location = '/edit_movie';"> Add Movie</button>
   {% if movies | length > 0 %}
@@ -32,5 +40,5 @@
     <i>No post yet.</i>
   {%endif%}
 
-
+</div>
 {%endblock%}
