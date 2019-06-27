@@ -217,41 +217,70 @@ def edit_movie():
 
      
     if form.validate_on_submit():
-        
         file = request.files['image_url']
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
-        #print(form.data['directors'][0])
-        e = {
-            'title_DE': form.data['title_DE'],
-            'title_EN': form.data['title_EN'],
-            'release_date': form.data['release_date'], 
-            'isReleased': form.data['isReleased'],
-            'image_url' :  str(url_for('static', filename= 'movies/' + filename)),
-            'format': form.data['format'],
-            'isColored': form.data['isColored'],
-            'language': form.data['language'],
-            'duration': form.data['duration'],
+            imageIncluded = True
+            e = {
+                'title_DE': form.data['title_DE'],
+                'title_EN': form.data['title_EN'],
+                'release_date': form.data['release_date'], 
+                'isReleased': form.data['isReleased'],
+                'image_url' :  str(url_for('static', filename= 'movies/' + filename)),
+                'format': form.data['format'],
+                'isColored': form.data['isColored'],
+                'language': form.data['language'],
+                'duration': form.data['duration'],
 
-            'synopsis': form.data['synopsis'],
-            'awards': form.data['awards'],
-            'screenings': form.data['screenings'],
-            'supporters': form.data['supporters'],
+                'synopsis': form.data['synopsis'],
+                'awards': form.data['awards'],
+                'screenings': form.data['screenings'],
+                'supporters': form.data['supporters'],
 
-            'directors': form.data['directors'],
-            'producers': form.data['producers'],
-            'executive_producers': form.data['executive_producers'],
-            'editors': form.data['editors'],
-            'cinematography': form.data['cinematography'],
-            'sound_recordist': form.data['sound_recordist'],
-            'sound_mix': form.data['sound_mix'],
-            'color': form.data['color'] 
-        }
-        print(e)
-        Movie.addMovie(e)
-        flash('Your changes have been saved.')
+                'directors': form.data['directors'],
+                'producers': form.data['producers'],
+                'executive_producers': form.data['executive_producers'],
+                'editors': form.data['editors'],
+                'cinematography': form.data['cinematography'],
+                'sound_recordist': form.data['sound_recordist'],
+                'sound_mix': form.data['sound_mix'],
+                'color': form.data['color'] 
+            }
+            Movie.addMovie(e, imageIncluded)
+            flash('Your changes have been saved.')
+        else:
+            imageIncluded = False
+            e = {
+                'title_DE': form.data['title_DE'],
+                'title_EN': form.data['title_EN'],
+                'release_date': form.data['release_date'], 
+                'isReleased': form.data['isReleased'],
+                #'image_url' :  str(url_for('static', filename= 'movies/' + filename)),
+                'format': form.data['format'],
+                'isColored': form.data['isColored'],
+                'language': form.data['language'],
+                'duration': form.data['duration'],
+
+                'synopsis': form.data['synopsis'],
+                'awards': form.data['awards'],
+                'screenings': form.data['screenings'],
+                'supporters': form.data['supporters'],
+
+                'directors': form.data['directors'],
+                'producers': form.data['producers'],
+                'executive_producers': form.data['executive_producers'],
+                'editors': form.data['editors'],
+                'cinematography': form.data['cinematography'],
+                'sound_recordist': form.data['sound_recordist'],
+                'sound_mix': form.data['sound_mix'],
+                'color': form.data['color'] 
+            }
+            Movie.addMovie(e, imageIncluded)
+            flash('Your changes have been saved.')  
+        #print(e)
+
         return redirect(url_for('edit_movie'))
     elif request.method == 'GET':
         id = request.args.get("id")
@@ -260,7 +289,7 @@ def edit_movie():
             movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
-            form.image_url.file_url = movie.image_url
+            form.image_url = movie.image_url
        
     return render_template('edit.html', title='Edit Movie',form=form)
 
