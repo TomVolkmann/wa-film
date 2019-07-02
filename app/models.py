@@ -232,11 +232,9 @@ class DesignImage(db.Model):
     def addDesignImage(input):   
         designImage = DesignImage(section=input["section"], image_url=input["image_url"], current=input["current"])
         
-        previousDesignImages = db.session.query(DesignImage).all()
+        previousDesignImages = db.session.query(DesignImage).filter(DesignImage.section == input["section"]).all()
         for prevDesignImage in previousDesignImages:
             prevDesignImage.current = 0
-
-            
 
         db.session.add(designImage)
         db.session.commit()

@@ -54,7 +54,7 @@ def about():
 def news():
     posts = Post.query.all()
     designImage = DesignImage.query.filter_by(section="news", current=1).first()
-    print(designImage.image_url)
+    #print(designImage.image_url)
     #print(posts)
     return render_template('news.html', posts=posts, designImage=designImage)
 
