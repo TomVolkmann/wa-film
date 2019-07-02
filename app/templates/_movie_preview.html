@@ -1,8 +1,18 @@
-<div>
+<!-- <div>
   <a href='/movies/{{movie.title_DE}}'class="mov_img_preview">
     <img src="{{movie.image_url}}" alt="Default Movie Poster"/>
   </a>
   <h3 >{{movie.title_DE }} | {{movie.title_EN}} {{movie.release_date}}</h3 > 
-</div>
+</div> -->
 
 
+
+    <div class="thumbnail">
+        <a href='/movies/{{movie.title_DE}}'class="mov_img_preview">
+          <img src="{{movie.image_url}}" alt="Default Movie Poster"/>
+        </a>
+        <div class="caption">
+          <h3 >{{movie.title_DE }} | {{movie.title_EN}} {{movie.release_date}}</h3 > 
+        </div>
+  </div>
+  
