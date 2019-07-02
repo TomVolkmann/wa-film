@@ -1,42 +1,32 @@
 {% extends "base.html" %}
 
-{% block content %}
-
+{%block content%}
 <div class="row">
   <img id="header" src="{{designImage.image_url}}" alt="My image"/>
   <div class="col-md-3"></div>
 </div>
 
-<div class="container">
-
-<div class="col" id="divider"><hr></div>
-
-  {% if movies | length > 0 %}
-    {%for movie in movies%}
-    <div class="row">
-      <div class="col-md-3">{% include '_movie_preview.html' %}
-      <button onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button> </div>
-    </div>
-
-    {%endfor%}
-{%else%}
-  <i>No movie yet.</i>
-{%endif%}
-
-
-<div class="row"> 
-    <div class="column">
-      <img src="/static/movies/Bad_Boys_2.jpg">
-    </div>
-    <div class="column">
-      <img src="/static/movies/220px-Men_In_Black_3.jpg">
-    </div> 
-    <div class="column">
-        <img src="/static/movies/Gladiator.jpg">
+<div class="row">
+    <div class="col-md-4">
+      <table class="table table-striped" id="owned_stock_table">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for movie in movies %}
+          <tr>
+            <td>{{ movie.title_DE }}</td>
+            <td>{{ movie.release_date }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
     </div>
   </div>
-
-</div>
 {%endblock%}
+
 
 
