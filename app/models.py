@@ -122,6 +122,7 @@ class Movie(db.Model):
                 awards=input["awards"],
                 screenings=input["screenings"],
                 supporters=input["supporters"],
+                image_url = "",
 
                 directors = directors_str,
                 producers = producers_str,
@@ -139,9 +140,10 @@ class Movie(db.Model):
         if not record:
             print("record jibts nischt")
             db.session.add(movie)
-
-        db.session.delete(record)
-        db.session.add(movie)
+        else:
+            db.session.delete(record)
+            db.session.add(movie)
+            
         db.session.commit()
         db.session.close()
 
@@ -199,3 +201,15 @@ def create_String(contacts):
             contact_str+=str(contact)
     return contact_str
     
+class DesignImage(db.Model):
+    __tablename__ = "designimages"
+    id = db.Column(db.Integer, primary_key = True)
+    section = db.Column(db.String)
+    image_url = db.Column(db.String)
+
+    def addDesignImage(input):   
+        designImage = DesignImage(section=input["section"], image_url=input["image_url"])
+        
+        db.session.add(designImage)
+        db.session.commit()
+        db.session.close()
