@@ -4,7 +4,9 @@
 
 <head> 
     <link rel="shortcut icon" href="{{ url_for('static' , filename='favicon.ico')}}">
+
 </head>
+<body>
 
 {% block title %}
     {% if title %}{{ title }} - FILMWENDE{% else %}Welcome to Filmwende{% endif %}
@@ -68,8 +70,13 @@
 {% endblock %}
 
 {% block scripts %}
-<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="{{url_for('.static', filename='myscripts.js')}}"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="{{url_for('.static', filename='myscripts.js')}}"></script>
+
+   
 {{super()}}
 {% endblock %}
+
+
+</body>
 
