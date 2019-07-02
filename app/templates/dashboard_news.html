@@ -12,14 +12,14 @@
 
   {% include '_dashboard.html' %}
   <h1>News</h1>
-  <button onclick ="window.location = '/edit_post';"> Add Post</button>
+  <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_post';"> Add Post</button>
   {% if posts | length > 0 %}
     {%for post in posts%}
         <div>
           {% include '_post.html' %}
-          <button onclick ="window.location = '/posts/{{post.title}}';"> See </button>
-          <button onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
-          <button onclick ="window.location = '/delete_post?id={{post.id}}';"> Delete </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/posts/{{post.title}}';"> See </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_post?id={{post.id}}';"> Edit </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/delete_post?id={{post.id}}';"> Delete </button>
         </div>
     {%endfor%}
   {%else%}
