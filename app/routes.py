@@ -43,10 +43,22 @@ def dashboard():
     movies = Movie.query.all()
     return render_template('dashboard_movies.html', movies = movies)
 
+#src: Answer from Fahad Haleem https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python 
+# def readFile(filename):
+#     filehandle = open(filename)
+#     print (filehandle.read())
+#     filehandle.close()
+
 @app.route('/about')
 def about(): 
     designImage = DesignImage.query.filter_by(section="about", current=1).first()
-    return render_template('about.html', designImage=designImage)
+
+    #hardcoded path!
+    with open('app\static\\about\Test2.txt', 'r') as file:
+        data = file.read()
+        print(data)
+
+    return render_template('about.html', designImage=designImage, data=data)
 
 
 @app.route('/news')
@@ -390,10 +402,16 @@ def dashboard_news():
     posts = Post.query.all()
     return render_template('dashboard_news.html',posts=posts)
 
-@app.route ('/dashboard_info')
+@app.route ('/dashboard_info', methods=['GET', 'POST'])
 def dashboard_info():
-    posts = Post.query.all()
-    return render_template('dashboard_info.html',posts=posts)
+    form = UploadForm()
+    if form.validate_on_submit():
+        file = request.files['image_url']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            print(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
+    return render_template('dashboard_info.html', form = form)
 
 # @app.route ('/dashboard_design')
 # def dashboard_design():

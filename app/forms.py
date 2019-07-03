@@ -32,6 +32,7 @@ class PostMovieForm(FlaskForm):
     image_url = FileField()
 
 class UploadForm(FlaskForm):
+    #This should be renamed to file, be aware of cases that already are in use
     image_url = FileField()
 
 class LoginForm(FlaskForm):

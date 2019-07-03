@@ -1,12 +1,24 @@
 {% extends "base2.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 {% block content %}
+<div class="container">
 
-  
-  <div class="container">
-      <div class="col"><hr></div>
-    {% include '_dashboard.html' %}
-    <h1>Info</h1>
+ <div class="col"><hr></div>
 
-</div>
-  
-{%endblock%}
+  {% include '_dashboard.html' %}
+  <h1>Info</h1>
+
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" action="/dashboard_info" >
+      <div class = "row">
+        <div class = "col-md-4">
+          <d1>
+              {{ wtf.quick_form(form) }}
+              <input type="submit" class="btn btn-outline-primary" value="Absenden">
+          </d1>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+  {%endblock%}
