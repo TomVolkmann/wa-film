@@ -21,19 +21,19 @@ import time
 @app.route('/')
 @app.route('/index')
 def index():
-    designImage = DesignImage.query.filter_by(section="home").first()
+    designImage = DesignImage.query.filter_by(section="home", current=1).first()
     return render_template("index.html", title='Home Page', designImage=designImage)
 
 @app.route('/completed')
 def completed(): 
     movies = Movie.query.filter_by(isReleased=1).all()
-    designImage = DesignImage.query.filter_by(section="completed_movies").first()
+    designImage = DesignImage.query.filter_by(section="completed_movies", current=1).first()
     return render_template('movies_completed.html', movies=movies, designImage=designImage)
 
 @app.route('/development')
 def development():
     movies = Movie.query.filter_by(isReleased=0).all()
-    designImage = DesignImage.query.filter_by(section="movies_in_development").first()
+    designImage = DesignImage.query.filter_by(section="movies_in_development", current=1).first()
     return render_template('movies_development.html',movies=movies, designImage=designImage)
 
 @login_required
@@ -46,15 +46,15 @@ def dashboard():
 @app.route('/about')
 def about(): 
     # COMMENT IN WHEN ABOUT.HTML IS READY !!!!!!!!!!!!!!!!!!!
-    #designImage = DesignImage.query.filter_by(section="about").first()
+    #designImage = DesignImage.query.filter_by(section="about", current=1).first()
     #return render_template('about.html', designImage=designImage)
     return render_template('about.html')
 
 @app.route('/news')
 def news():
     posts = Post.query.all()
-    designImage = DesignImage.query.filter_by(section="news").first()
-    print(designImage.image_url)
+    designImage = DesignImage.query.filter_by(section="news", current=1).first()
+    #print(designImage.image_url)
     #print(posts)
     return render_template('news.html', posts=posts, designImage=designImage)
 
@@ -422,11 +422,13 @@ def dashboard_design():
             e = {
                 'section' : folder_name,
                 #'image_url' :  (os.path.join(target, filename))
-                'image_url' :  str(url_for('static', filename= 'header/{}/'.format(folder_name) + filename))
                 #'image_url' :  str(url_for('static', filename= 'movies/' + filename)),
+                'image_url' :  str(url_for('static', filename= 'header/{}/'.format(folder_name) + filename)),
+                'current' : 1
+
             }
         
-            print(e['image_url'])
+            #print(e['image_url'])
             DesignImage.addDesignImage(e)
     return render_template("dashboard_design.html", form = form)
 
