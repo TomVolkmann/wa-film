@@ -395,6 +395,9 @@ def edit_contact():
     if form.validate_on_submit():
         e = {
             'name': form.data['name'],
+            'surname': form.data['surname'],
+            'email': form.data['email'],
+            'profession': form.data['profession'],
         }
         print(e)
         Contact.addContact(e)
@@ -406,6 +409,9 @@ def edit_contact():
             print(id)
             contact = Contact.getContact(int(id))
             form.name.data = contact.name
+            form.surname.data = contact.surname
+            form.email.data = contact.email
+            form.profession.data = contact.profession
        
     return render_template('edit_contact.html', title="Edit Contact", form=form)
 

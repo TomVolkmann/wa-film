@@ -244,11 +244,22 @@ class Contact(db.Model):
     __tablename__ = "contacts"
     id = db.Column(db.Integer, primary_key = True)
     name = db.Column(db.String(32))
+    surname = db.Column(db.String(32))
+    email = db.Column(db.String(120))
+    profession = db.Column(db.String(120))
 
     def addContact(input):   
-        contact = Contact(name=input["name"])
+        contact = Contact(name=input["name"],surname=input["surname"],email=input["email"],profession=input["profession"])
         
-        db.session.add(contact)
+        record = db.session.query(Contact).filter(Contact.name == input["name"]).first()
+        if not record:
+            print("record jibts nischt")
+            db.session.add(contact)
+        else:
+            if input["surname"]: record.surname=input["surname"]
+            if input["email"]: record.email=input["email"]
+            if input["profession"]: record.profession=input["profession"]
+            
         db.session.commit()
         db.session.close()
 
