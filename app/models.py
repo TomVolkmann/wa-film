@@ -55,6 +55,11 @@ class User(UserMixin, db.Model):
                     "username" : user.username,
                     "email" : user.email
                 }
+            else:
+                user_obj = {
+                    "username" : "",
+                    "email" : ""
+                }
         return user_obj
 
 @login.user_loader
