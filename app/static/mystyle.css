@@ -26,7 +26,7 @@ hr{
 
 
 a {
-  color: lightgrey;
+  color: white;
 }
 
 ul.nav a:hover{ 
@@ -76,6 +76,7 @@ ul.nav a:hover{
 #centered-links {
   width: 100%;
   text-align: center;
+  color:white;
 }
 #centered-links > a, #centered-links > li {
   float: none;
