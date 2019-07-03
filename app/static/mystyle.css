@@ -106,11 +106,19 @@ ul.nav a:hover{
   
 /*      OTHER      */
 
-h4{
+.bold{
   font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   font-weight: bold;
+  font-size: large;
   color: rgba(100, 100, 100);
 }
+
+.release{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: large;
+  color: rgba(100, 100, 100);
+}
+
 
 
 html, body {
