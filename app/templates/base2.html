@@ -41,7 +41,7 @@
                 {% if current_user.is_anonymous %}
                 <li><a href="{{ url_for('login') }}">Login</a></li>
                 {% else %}
-                <li><a onload="currentLinkFunction()"  href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                <li><a onload="currentLinkFunction()" id="dash" href="{{ url_for('dashboard') }}">Dashboard</a></li>
                 <li><a href="{{ url_for('logout') }}">Logout</a></li>
                 {% endif %}
             </ul>

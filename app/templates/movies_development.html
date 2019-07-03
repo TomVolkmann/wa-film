@@ -1,13 +1,12 @@
 {% extends "base.html" %}
 
 {% block content %}
-
 <div class="row">
   <img id="header" src="{{designImage.image_url}}" alt="My image"/>
   <div class="col-md-3"></div>
 </div>
 
-  <div class="col"><hr></div>
+<div class="col"><hr></div>
 <div class="container">
 
   {% if movies | length > 0 %}

@@ -34,8 +34,13 @@ ul.nav a:hover{
 }
 
 #productnav ul li.active  a, .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a, .navbar-inverse .navbar-nav>.open>a:focus, .navbar-inverse .navbar-nav>.open>a:hover {
-  color: lightgrey !important;
+  color: black !important;
   background-color: transparent;
+}
+
+#dash, #dash a{
+  background-color: black;
+  color: white;
 }
 
 .navbar-inverse .navbar-toggle {
@@ -136,25 +141,27 @@ html, body {
   background-repeat: no-repeat;
 }
 
-.row {
-  display: flex;
-  flex-wrap: wrap;
-  padding: 0 4px;
+#movie-poster {
+  vertical-align: middle;
+  width: 100%;
 }
 
-/* Create four equal columns that sits next to each other */
-.column {
+
+
+/* Create four equal columns that sit next to each other */
+.col {
   flex: 33%;
   max-width: 33%;
   padding: 0 10px;
 }
 
-.column img {
+.col img {
   margin-top: 8px;
   margin-left : 8px;
   margin-right: 40px;
   vertical-align: middle;
   width: 100%;
+  object-fit: contain;
 }
 
 /* Responsive layout - makes a two column-layout instead of four columns */
