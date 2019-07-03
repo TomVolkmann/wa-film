@@ -134,7 +134,7 @@ def movie(movietitle):
     color = Contact.getContacts(movie_result.color)
 
     if movie_result.release_date:
-        release_date = movie_result.release_date
+        release_date = movie_result.release_date[-4:]
     else: 
         release_date = []
 

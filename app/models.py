@@ -228,7 +228,7 @@ class Movie(db.Model):
         record = db.session.query(Movie).filter(Movie.id == movie_id).first()
         db.session.close()
         return record
-
+    
     def deleteMovie(id):
         db.session.delete(Movie.getMovie(id))
         db.session.commit()
