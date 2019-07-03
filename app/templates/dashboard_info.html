@@ -1,38 +1,8 @@
 {% extends "base2.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
 
-<!-- {% block content %}
-<div class="container">
 
- <div class="col"><hr></div>
-
-  {% include '_dashboard.html' %}
-  <h1>Info</h1>
-  <p>Current User: 
-  {% if about_users | length > 0 %}
-    {%for user in about_users%}
-      {{user.username}}
-    {%endfor%}
-  {%else%}
-    <i>No user yet.</i>
-  {%endif%}
-  </p>
-
-<div class="container">
-    <form method="POST" enctype="multipart/form-data" action="/dashboard_info" >
-      <div class = "row">
-        <div class = "col-md-4">
-          <d1>
-              {{ wtf.quick_form(form) }}
-              <input type="submit" class="btn btn-outline-primary" value="Absenden">
-          </d1>
-        </div>
-      </div>
-      
-    </form>
-  </div>
-  {%endblock%} -->
-  
+{% block content %}
 <div class="container">
   <div class="col"><hr></div>
   {% include '_dashboard.html' %}
@@ -59,3 +29,4 @@
     </div>
   </form>
 </div>
+{%endblock%}
