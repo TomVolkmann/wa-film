@@ -8,6 +8,8 @@
   {% include '_dashboard.html' %}
   <h1>Contact</h1>
   <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact';"> Add Contact</button>
+  <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/register';"> Add User</button>
+
   {% if contacts | length > 0 %}
     {%for contact in contacts%}
         <div>

@@ -12,6 +12,7 @@ class User(UserMixin, db.Model):
     email = db.Column(db.String(120), index=True, unique=True)
     password_hash = db.Column(db.String(128))
     posts = db.relationship('Post', backref='author', lazy='dynamic')
+    isInAbout = db.Column(db.Integer)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
@@ -21,6 +22,40 @@ class User(UserMixin, db.Model):
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
+    
+    def update_about_status(new_users):
+        old_users = db.session.query(User).all()
+        for user in old_users:
+            user.isInAbout = 0
+            db.session.commit()
+        for user_id in new_users:
+            user = db.session.query(User).filter(User.id == user_id).first()
+            user.isInAbout = 1
+            db.session.commit()
+        db.session.close()
+
+    def get_about():
+        users = []
+        for user in User.query.filter(User.isInAbout == 1).all():
+            usern_arr = user.username.split()
+            if str(usern_arr[0]) != "General":
+                user_obj = {
+                    "username" : user.username,
+                    "email" : user.email
+                }
+                users.append(user_obj)
+        return users
+    
+    def get_general(): 
+        users = User.query.all()
+        for user in User.query.all():
+            usern_arr = user.username.split()
+            if str(usern_arr[0]) == "General":
+                user_obj = {
+                    "username" : user.username,
+                    "email" : user.email
+                }
+        return user_obj
 
 @login.user_loader
 def load_user(id):

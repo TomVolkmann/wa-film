@@ -21,7 +21,11 @@
 }
 
 hr{
-  border-color: rgba(255, 255, 255)!important;
+  border-color: rgba(255, 255, 255);
+}
+
+.see hr{
+  border-color: black;
 }
 
 
