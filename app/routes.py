@@ -26,13 +26,13 @@ def index():
 
 @app.route('/completed')
 def completed(): 
-    movies = Movie.query.filter_by(isReleased=1).all()
+    movies = Movie.get_movies(1)
     designImage = DesignImage.query.filter_by(section="completed_movies", current=1).first()
     return render_template('movies_completed.html', movies=movies, designImage=designImage)
 
 @app.route('/development')
 def development():
-    movies = Movie.query.filter_by(isReleased=0).all()
+    movies = Movie.get_movies(0)
     designImage = DesignImage.query.filter_by(section="movies_in_development", current=1).first()
     return render_template('movies_development.html',movies=movies, designImage=designImage)
 

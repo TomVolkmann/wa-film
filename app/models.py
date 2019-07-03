@@ -234,6 +234,12 @@ class Movie(db.Model):
         db.session.commit()
         db.session.close()
 
+    def get_movies(boolean):
+        movies = Movie.query.filter_by(isReleased=boolean).all()
+        for movie in movies:
+            movie.release_date = movie.release_date[-4:]
+        return movies
+
 class Contact(db.Model):
     __tablename__ = "contacts"
     id = db.Column(db.Integer, primary_key = True)
