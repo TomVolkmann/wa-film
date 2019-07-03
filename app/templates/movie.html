@@ -6,7 +6,7 @@
   <div class="row movieinfo">
     <div class="col-sm-6">
       <div>
-        <img src="{{movie.image_url}}" alt="Movie Image"/>
+        <img id="movie-poster" src="{{movie.image_url}}" alt="Movie Image"/>
       </div>
     </div>
     <div class="col-sm-6">
@@ -73,8 +73,16 @@
   <div style="text-align: center;">
       <div class="col"><hr></div>
       <div class="col see"><hr></div>
+    <div class="row">
+        <div class="col-sm-4"></div>
+        <div class="col-sm-2"><span class="bold">Credits List</span></div>
+        <div class="col-sm-6"></div>
 
-      <p class="bold">Credits List</p>
+    </div>
+    <div class="row">
+      <div class="col-sm-3"></div>
+      <div class="col-sm-5">
+
       <table class="table">
           <thead>
             <tr>
@@ -84,65 +92,116 @@
           </thead>
 
           <tbody>
+            {% if movie.directors | length > 0 %}
             <tr>
-              {% if movie.directors | length > 0 %}
-              <p class="bold"> Directors:</p>
-              {%for director in movie.directors%}
-                {{director}} {% if ((movie.directors | length > 1) and (not loop.last)) %}|{%endif%}
-              {%endfor%}
-
-              {%endif%}
+                <th scope="row"> Directors:</th>
+                <td> {%for director in movie.directors%}
+              {{director}} {% if ((movie.directors | length > 1) and (not loop.last)) %} | {%endif%}
+              {%endfor%} </td>
             </tr>
-              {% if movie.producers | length > 0 %}
-              <p class="bold"> Producers:</p>
-                  {%for producer in movie.producers%}
-                    {{producer}} {% if ((movie.producers | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
-              {%endif%}
+            {%endif%}
+
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+              </tr>
+
+            {% if movie.producers | length > 0 %}
+            <tr>
+                <th scope="row">Producers:</th>
+                <td>{%for producer in movie.producers%}
+                  {{producer}} {% if ((movie.producers | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
+            {%endif%}
+
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+              </tr>
+
               {% if movie.executive_producers | length > 0 %}
-              <p class="bold"> Executive Producers:</p>
-                  {%for executive_producer in movie.executive_producers%}
-                    {{executive_producer}} {% if ((movie.executive_producers | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+              <tr>
+                <th scope="row">Executive Producers:</th>
+                  <td>{%for executive_producer in movie.executive_producers%}
+                  {{executive_producer}} {% if ((movie.executive_producers | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>  
               {%endif%}
+
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+              </tr>
+
               {% if movie.editors | length > 0 %}
-              <p class="bold"> Editors:</p>
-                  {%for editor in movie.editors%}
-                    {{editor}} {% if ((movie.editors | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+              <tr>
+                <th scope="row">Editors:</th>
+                  <td>{%for editor in movie.editors%}
+                  {{editor}} {% if ((movie.editors | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
               {%endif%}
+              
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+              </tr>
+
               {% if movie.cinematography | length > 0 %}
-              <p class="bold"> Cinematography:</p>
-                  {%for cinematograph in movie.cinematography%}
-                    {{cinematograph}} {% if ((movie.cinematography | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+              <tr>
+                <th scope="row">Cinematography:</th>
+                  <td>{%for cinematograph in movie.cinematography%}
+                    {{cinematograph}} {% if ((movie.cinematography | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
               {%endif%}
+
+            <tr>
+                <th scope="row"></th>
+                <td></td>
+              </tr>
+
               {% if movie.sound_recordist | length > 0 %}
-              <p class="bold"> Sound Recordist:</p>
-                  {%for sound_record in movie.sound_recordist%}
-                    {{sound_record}} {% if ((movie.sound_recordist | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+             <tr>
+                <th scope="row"> Sound Recordist:</th>
+                  <td>{%for sound_record in movie.sound_recordist%}
+                    {{sound_record}} {% if ((movie.sound_recordist | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
               {%endif%}
+
+              <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                </tr>
+              
               {% if movie.sound_mix | length > 0 %}
-              <p class="bold"> Sound Mix:</p>
-                  {%for sound_mi in movie.sound_mix%}
-                    {{sound_mi}} {% if ((movie.sound_mix | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+              <tr>
+                  <th scope="row"> Sound Mix:</th>
+                  <td>{%for sound_mi in movie.sound_mix%}
+                    {{sound_mi}} {% if ((movie.sound_mix | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
               {%endif%}
+
+              <tr>
+                  <th scope="row"></th>
+                  <td></td>
+                </tr>
+
               {% if movie.color | length > 0 %}
-              <p class="bold"> Color:</p>
-                  {%for colo in movie.color%}
-                    {{colo}} {% if ((movie.color | length > 1) and (not loop.last)) %}|{%endif%}
-                  {%endfor%}
-              
+              <tr>
+                <th scope="row"> Color:</th>
+                  <td>{%for colo in movie.color%}
+                    {{colo}} {% if ((movie.color | length > 1) and (not loop.last)) %} | {%endif%}
+                  {%endfor%}</td>
+              </tr>
               {%endif%}
             </tbody>
           </table>
+        </div>
+        <div class="col-sm-2"></div>
+      </div>
     </div >
 {%endblock%}

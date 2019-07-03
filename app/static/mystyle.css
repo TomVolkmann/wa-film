@@ -116,6 +116,12 @@ ul.nav a:hover{
 
   
 /*      OTHER      */
+
+.table>tbody>tr>td, .table>tbody>tr>th, .table>thead>tr>th{
+  border-color: transparent!important;
+  font-size: larger;
+
+}
 .about{
   text-align: center;
 }
@@ -132,7 +138,9 @@ ul.nav a:hover{
   color: rgba(100, 100, 100);
 }
 
-
+.navbar-inverse .navbar-collapse, .navbar-inverse .navbar-form{
+  height: 100%;
+}
 
 html, body {
   max-width: 100%;
@@ -149,7 +157,7 @@ html, body {
   background-repeat: no-repeat;
 }
 
-#movie-poster {
+#movie-poster{
   vertical-align: middle;
   width: 100%;
 }
