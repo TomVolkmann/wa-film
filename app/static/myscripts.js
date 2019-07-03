@@ -18,31 +18,10 @@ function activeClass() {
   }
   activeClass();
 
-/* jQuery(function($) {
-    function fixDiv() {
-     var $cache = $('#productnav');
-     if ($(window).scrollTop() > 0)
-         $cache.css({
-
-         'display' : 'block',
-         'position': 'fixed',
-         'top': '0px'
-
-   });
-      else
-      $cache.css({
-      'position': 'relative',
-      'top': 'auto',
-      'display' : 'block'
-   });
-}
-$(window).scroll(fixDiv);
- fixDiv();
-});*/
 
 $(window).scroll(function () {
   if ($(window).scrollTop() >= 50) {
-  $('#productnav').css('background','black');
+  $('#productnav').css('background','rgb(50,50,50)'); 
   } else {
   $('#productnav').css('background','transparent');
   }
