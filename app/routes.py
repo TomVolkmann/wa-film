@@ -45,10 +45,9 @@ def dashboard():
 
 @app.route('/about')
 def about(): 
-    # COMMENT IN WHEN ABOUT.HTML IS READY !!!!!!!!!!!!!!!!!!!
-    #designImage = DesignImage.query.filter_by(section="about", current=1).first()
-    #return render_template('about.html', designImage=designImage)
-    return render_template('about.html')
+    designImage = DesignImage.query.filter_by(section="about", current=1).first()
+    return render_template('about.html', designImage=designImage)
+
 
 @app.route('/news')
 def news():
