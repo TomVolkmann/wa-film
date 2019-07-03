@@ -60,7 +60,7 @@ class RegistrationForm(FlaskForm):
 
 class PostNewsForm(FlaskForm):
     title = StringField("News Post Title", validators=[DataRequired()])
-    body = StringField("Post body", validators=[DataRequired()])
+    body = TextAreaField("Post body", validators=[DataRequired()])
 
 class ContactForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
