@@ -71,4 +71,5 @@ class ContactForm(FlaskForm):
 
 class AboutContactForm(FlaskForm):
     about_contacts = SelectMultipleField(choices=[], coerce=int)
+    upload_file = FileField()
 

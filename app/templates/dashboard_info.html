@@ -1,5 +1,7 @@
 {% extends "base2.html" %}
 {% import 'bootstrap/wtf.html' as wtf %}
+
+
 {% block content %}
 <div class="container">
   <div class="col"><hr></div>
@@ -15,17 +17,16 @@
   {%endif%}
   </p>
 
-<div class="container">
-    <form method="POST" enctype="multipart/form-data" action="/dashboard_info" >
-      <div class = "row">
-        <div class = "col-md-4">
-          <d1>
-              {{ wtf.quick_form(form) }}
-              <input type="submit" class="btn btn-outline-primary" value="Absenden">
-          </d1>
-        </div>
+
+  <form method="POST" enctype="multipart/form-data" action="" >
+    <div class = "row">
+      <div class = "col-md-4">
+        <d1>
+          {{ wtf.quick_form(form) }}
+          <input type="submit" class="btn btn-outline-primary" value="Absenden">
+        </d1>
       </div>
-      
-    </form>
-  </div>
-  {%endblock%}
+    </div>
+  </form>
+</div>
+{%endblock%}
