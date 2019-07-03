@@ -2,10 +2,10 @@
 {% block content %}
 
   <div class="container">
-      <div class="col"><hr></div>
-
-
   {% include '_dashboard.html' %}
+  <div class="col"><hr></div>
+
+  
   <h1>News</h1>
   <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_post';"> Add Post</button>
   {% if posts | length > 0 %}

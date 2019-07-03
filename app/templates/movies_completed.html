@@ -1,33 +1,25 @@
 {% extends "base.html" %}
 
-{%block content%}
+{% block content %}
 <div class="row">
   <img id="header" src="{{designImage.image_url}}" alt="My image"/>
   <div class="col-md-3"></div>
 </div>
 
 <div class="col"><hr></div>
+<div class="container">
 
-<div class="row">
-    <div class="col-md-4">
-      <table class="table table-striped" id="owned_stock_table">
-        <thead>
-          <tr>
-            <th>Title</th>
-            <th>Description</th>
-          </tr>
-        </thead>
-        <tbody>
-          {% for movie in movies %}
-          <tr>
-            <td>{{ movie.title_DE }}</td>
-            <td>{{ movie.release_date }}</td>
-          </tr>
-          {% endfor %}
-        </tbody>
-      </table>
-    </div>
+  {% if movies | length > 0 %}
+  <div class="row">
+    {%for movie in movies%}
+        <div class="col-sm-6 col-md-4">{% include '_movie_preview.html' %}</div>
+    {%endfor%}
   </div>
+{%else%}
+  <i>No movie yet.</i>
+{%endif%}
+
+</div>
 {%endblock%}
 
 

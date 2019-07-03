@@ -66,3 +66,6 @@ class PostNewsForm(FlaskForm):
 class ContactForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
 
+class AboutContactForm(FlaskForm):
+    about_contacts = SelectMultipleField(choices=[], coerce=int)
+

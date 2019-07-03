@@ -1,7 +1,7 @@
 from app import app, db
 from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request, send_from_directory
-from app.forms import LoginForm, PostMovieForm, PostNewsForm,  ContactForm, UploadForm
+from app.forms import LoginForm, PostMovieForm, PostNewsForm,  ContactForm, UploadForm, AboutContactForm
 from flask_login import current_user, login_user, logout_user, login_required
 from app.models import User, Movie, Post, Contact, DesignImage
 from werkzeug.urls import url_parse
@@ -51,14 +51,17 @@ def dashboard():
 
 @app.route('/about')
 def about(): 
+    about_users = User.get_about()
+    general = User.get_general()
     designImage = DesignImage.query.filter_by(section="about", current=1).first()
 
-    #hardcoded path!
-    with open('app\static\\about\Test2.txt', 'r') as file:
-        data = file.read()
-        print(data)
+    # #hardcoded path!
+    # with open('app\static\\about\Test2.txt', 'r') as file:
+    #     data = file.read()
+    #     print(data)
 
-    return render_template('about.html', designImage=designImage, data=data)
+    # return render_template('about.html', designImage=designImage, data=data)
+    return render_template('about.html', designImage=designImage, about_users=about_users, general=general)
 
 
 @app.route('/news')
@@ -90,9 +93,10 @@ def login():
     return render_template('login.html', title='Sign In', form=form)
 
 @app.route('/register', methods=['GET', 'POST'])
+@login_required
 def register():
-    if current_user.is_authenticated:
-        return redirect(url_for('index'))
+    # if current_user.is_authenticated:
+    #     return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
         user = User(username=form.username.data, email=form.email.data)
@@ -204,7 +208,8 @@ def movie(movietitle):
         'cinematography': cinematography,
         'sound_recordist': sound_recordist,
         'sound_mix': sound_mix,
-        'color': color
+        'color': color,
+        'image_url' : movie_result.image_url
     }
 
     print(movie)
@@ -309,7 +314,26 @@ def edit_movie():
             movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
-            form.image_url = movie.image_url
+            form.isReleased.data = movie.isReleased
+            form.release_date.data = movie.release_date
+            form.format.data = movie.format
+            form.isColored.data = movie.isColored
+            form.language.data = movie.language
+            form.duration.data = movie.duration
+
+            form.synopsis.data = movie.synopsis
+            form.awards.data = movie.awards
+            form.screenings.data = movie.screenings
+            form.supporters.data = movie.supporters
+
+            # form.directors.data = movie.directors
+            # form.producers.data = movie.producers
+            # form.executive_producers.data = movie.executive_producers
+            # form.editors.data = movie.editors
+            # form.cinematography.data = movie.cinematography
+            # form.sound_recordist.data = movie.sound_recordist
+            # form.sound_mix.data = movie.sound_mix
+            # form.color.data = movie.color
        
     return render_template('edit.html', title='Edit Movie',form=form)
 
@@ -402,21 +426,19 @@ def dashboard_news():
     posts = Post.query.all()
     return render_template('dashboard_news.html',posts=posts)
 
-@app.route ('/dashboard_info', methods=['GET', 'POST'])
+@app.route('/dashboard_info',  methods=['GET', 'POST'])
 def dashboard_info():
-    form = UploadForm()
+    about_users = User.get_about()
+    #general = User.get_general()
+    #print(general)
+    form = AboutContactForm()
+    form.about_contacts.choices = [(user.id, user.username) for user in User.query.all()]
     if form.validate_on_submit():
-        file = request.files['image_url']
-        if file and allowed_file(file.filename):
-            filename = secure_filename(file.filename)
-            print(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
-            file.save(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
-    return render_template('dashboard_info.html', form = form)
-
-# @app.route ('/dashboard_design')
-# def dashboard_design():
-#     posts = Post.query.all()
-#     return render_template('dashboard_design.html',posts=posts)
+        print(form.data['about_contacts'])
+        User.update_about_status(form.data['about_contacts'])
+        about_users = User.get_about()
+        #general = User.get_general()
+    return render_template('dashboard_info.html',form=form, about_users=about_users)
 
 @app.route('/dashboard_design',  methods=['GET', 'POST'])
 def dashboard_design():
