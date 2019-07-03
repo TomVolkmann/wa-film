@@ -43,11 +43,24 @@ def dashboard():
     movies = Movie.query.all()
     return render_template('dashboard_movies.html', movies = movies)
 
+#src: Answer from Fahad Haleem https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python 
+# def readFile(filename):
+#     filehandle = open(filename)
+#     print (filehandle.read())
+#     filehandle.close()
+
 @app.route('/about')
 def about(): 
     about_users = User.get_about()
     general = User.get_general()
     designImage = DesignImage.query.filter_by(section="about", current=1).first()
+
+    # #hardcoded path!
+    # with open('app\static\\about\Test2.txt', 'r') as file:
+    #     data = file.read()
+    #     print(data)
+
+    # return render_template('about.html', designImage=designImage, data=data)
     return render_template('about.html', designImage=designImage, about_users=about_users, general=general)
 
 
