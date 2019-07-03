@@ -13,15 +13,19 @@
   {% include '_dashboard.html' %}
   <h1>Movies</h1>
   <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_movie';"> Add Movie</button>
+  <div class="col"><hr></div>
+
   {% if movies | length > 0 %}
+  <div class="row">
       {%for movie in movies%}
-      <div>
-        {% include '_movie_preview.html' %}
+      <div class="col-sm-6 col-md-4">
+        {% include '_dashboard_movie.html' %}
         <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/movies/{{movie.title_DE}}';"> See </button>
         <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_movie?id={{movie.id}}';"> Edit </button>
         <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/delete_movie?id={{movie.id}}';"> Delete </button>
       </div>
     {%endfor%}
+    </div>
   {%else%}
     <i>No movie yet.</i>
   {%endif%}
