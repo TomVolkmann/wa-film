@@ -42,8 +42,8 @@ $(window).scroll(fixDiv);
 
 $(window).scroll(function () {
   if ($(window).scrollTop() >= 50) {
-  $('.navbar').css('background','black');
+  $('#productnav').css('background','black');
   } else {
-  $('.navbar').css('background','transparent');
+  $('#productnav').css('background','transparent');
   }
   });
