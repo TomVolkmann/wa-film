@@ -195,7 +195,8 @@ def movie(movietitle):
         'cinematography': cinematography,
         'sound_recordist': sound_recordist,
         'sound_mix': sound_mix,
-        'color': color
+        'color': color,
+        'image_url' : movie_result.image_url
     }
 
     print(movie)
@@ -300,7 +301,26 @@ def edit_movie():
             movie = Movie.getMovie(int(id))
             form.title_DE.data = movie.title_DE
             form.title_EN.data = movie.title_EN
-            form.image_url = movie.image_url
+            form.isReleased.data = movie.isReleased
+            form.release_date.data = movie.release_date
+            form.format.data = movie.format
+            form.isColored.data = movie.isColored
+            form.language.data = movie.language
+            form.duration.data = movie.duration
+
+            form.synopsis.data = movie.synopsis
+            form.awards.data = movie.awards
+            form.screenings.data = movie.screenings
+            form.supporters.data = movie.supporters
+
+            # form.directors.data = movie.directors
+            # form.producers.data = movie.producers
+            # form.executive_producers.data = movie.executive_producers
+            # form.editors.data = movie.editors
+            # form.cinematography.data = movie.cinematography
+            # form.sound_recordist.data = movie.sound_recordist
+            # form.sound_mix.data = movie.sound_mix
+            # form.color.data = movie.color
        
     return render_template('edit.html', title='Edit Movie',form=form)
 

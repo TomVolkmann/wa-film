@@ -187,14 +187,30 @@ class Movie(db.Model):
             record.awards=movie.awards
             record.screenings=movie.screenings
             record.supporters=movie.supporters
-            record.directors = movie.directors
-            record.producers = movie.producers
-            record.executive_producers = movie.executive_producers
-            record.editors = movie.editors
-            record.cinematography = movie.cinematography
-            record.sound_recordist = movie.sound_recordist
-            record.sound_mix = movie.sound_mix
-            record.color = movie.color
+
+            if movie.directors:
+                record.directors = movie.directors
+
+            if movie.producers:
+                record.producers = movie.producers
+            
+            if movie.executive_producers: 
+                record.executive_producers = movie.executive_producers
+
+            if movie.editors:
+                record.editors = movie.editors
+
+            if movie.cinematography:
+                record.cinematography = movie.cinematography
+
+            if movie.sound_recordist:
+                record.sound_recordist = movie.sound_recordist
+            
+            if movie.sound_mix:
+                record.sound_mix = movie.sound_mix
+            
+            if movie.color:
+                record.color = movie.color
 
             if imageIncluded:
                 record.image_url = input["image_url"]
