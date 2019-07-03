@@ -2,24 +2,44 @@
 {% block content %}
   
   <div class="container">
+  {% include '_dashboard.html' %}
   <div class="col"><hr></div>
 
-
-  {% include '_dashboard.html' %}
+  
   <h1>Contact</h1>
   <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact';"> Add Contact</button>
+
+
   {% if contacts | length > 0 %}
+  <table class="table">
+    <thead>
+      <tr>
+        <th scope="col">Name</th>
+        <th scope="col">Surname</th>
+        <th scope="col">E-mail</th>
+        <th scope="col">Profession</th>
+        <th scope="col"></th>
+      </tr>
+    </thead>
     {%for contact in contacts%}
-        <div>
-          {% include '_contact.html' %}
+    <tbody>
+      <tr>
+        <td>contact-vorname</td>
+        <td>contact-nachname</td>
+        <td>contact-email</td>
+        <td>contact-job?</td>
+        <td>
           <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/contacts/{{contact.id}}';"> See </button>
           <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact?id={{contact.id}}';"> Edit </button>
           <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/delete_contact?id={{contact.id}}';"> Delete </button>
-        </div>
+        </td>
+      </tr>
+    </tbody>
     {%endfor%}
-  {%else%}
-    <i>No contact yet.</i>
-  {%endif%}
+  </table>
+{%else%}
+  <i>No movie yet.</i>
+{%endif%}
 
   </div>
 {%endblock%}
