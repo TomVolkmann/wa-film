@@ -24,15 +24,16 @@ class User(UserMixin, db.Model):
         return check_password_hash(self.password_hash, password)
     
     def update_about_status(new_users):
-        old_users = db.session.query(User).all()
-        for user in old_users:
-            user.isInAbout = 0
-            db.session.commit()
-        for user_id in new_users:
-            user = db.session.query(User).filter(User.id == user_id).first()
-            user.isInAbout = 1
-            db.session.commit()
-        db.session.close()
+        if new_users:
+            old_users = db.session.query(User).all()
+            for user in old_users:
+                user.isInAbout = 0
+                db.session.commit()
+            for user_id in new_users:
+                user = db.session.query(User).filter(User.id == user_id).first()
+                user.isInAbout = 1
+                db.session.commit()
+            db.session.close()
 
     def get_about():
         users = []
@@ -54,6 +55,11 @@ class User(UserMixin, db.Model):
                 user_obj = {
                     "username" : user.username,
                     "email" : user.email
+                }
+            else:
+                user_obj = {
+                    "username" : "",
+                    "email" : ""
                 }
         return user_obj
 
@@ -171,7 +177,7 @@ class Movie(db.Model):
       
         record = db.session.query(Movie).filter(Movie.title_DE == input["title_DE"]).first()
         if not record:
-            print("record jibts nischt")
+            print("No matching record found")
             if imageIncluded:
                 movie.image_url = input["image_url"]
             db.session.add(movie)

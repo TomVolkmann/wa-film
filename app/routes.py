@@ -55,13 +55,13 @@ def about():
     general = User.get_general()
     designImage = DesignImage.query.filter_by(section="about", current=1).first()
 
-    # #hardcoded path!
-    # with open('app\static\\about\Test2.txt', 'r') as file:
-    #     data = file.read()
-    #     print(data)
+    #hardcoded path!
+    with open('app\static\\about\About.txt', 'r') as file:
+        data = file.read()
+        #print(data)
 
     # return render_template('about.html', designImage=designImage, data=data)
-    return render_template('about.html', designImage=designImage, about_users=about_users, general=general)
+    return render_template('about.html', designImage=designImage, about_users=about_users, general=general, data=data)
 
 
 @app.route('/news')
@@ -434,6 +434,12 @@ def dashboard_info():
     form = AboutContactForm()
     form.about_contacts.choices = [(user.id, user.username) for user in User.query.all()]
     if form.validate_on_submit():
+        file = request.files['upload_file']
+        if file and allowed_file(file.filename):
+            #filename = secure_filename(file.filename)
+            filename = 'About.txt'
+            #print(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
         print(form.data['about_contacts'])
         User.update_about_status(form.data['about_contacts'])
         about_users = User.get_about()
