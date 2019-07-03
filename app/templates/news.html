@@ -8,12 +8,12 @@
 </div>
 
 <div class="container">
-    <div class="col" id="divider"><hr></div>
+    <div class="col"><hr></div>
 
   {% if posts | length > 0 %}
     {%for post in posts%}
       {% include '_post.html' %}
-      <button onclick ="window.location = '/posts/{{post.title_DE}}';"> See </button>
+      <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/posts/{{post.title_DE}}';"> See </button>
     {%endfor%}
 {%else%}
   <i>No post yet.</i>

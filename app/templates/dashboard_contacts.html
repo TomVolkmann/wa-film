@@ -1,6 +1,4 @@
 {% extends "base.html" %}
-
-
 {% block content %}
 
 <div class="row">
@@ -9,19 +7,19 @@
   </div>
   
   <div class="container">
-  <div class="col" id="divider"><hr></div>
+  <div class="col"><hr></div>
 
 
   {% include '_dashboard.html' %}
   <h1>Contact</h1>
-  <button onclick ="window.location = '/edit_contact';"> Add Contact</button>
+  <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact';"> Add Contact</button>
   {% if contacts | length > 0 %}
     {%for contact in contacts%}
         <div>
           {% include '_contact.html' %}
-          <button onclick ="window.location = '/contacts/{{contact.id}}';"> See </button>
-          <button onclick ="window.location = '/edit_contact?id={{contact.id}}';"> Edit </button>
-          <button onclick ="window.location = '/delete_contact?id={{contact.id}}';"> Delete </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/contacts/{{contact.id}}';"> See </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact?id={{contact.id}}';"> Edit </button>
+          <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/delete_contact?id={{contact.id}}';"> Delete </button>
         </div>
     {%endfor%}
   {%else%}

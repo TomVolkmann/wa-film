@@ -36,5 +36,18 @@
   </div>
 </div> -->
 
+  <div class="col"><hr></div>
+<div class="container">
 
+  {% if movies | length > 0 %}
+  <div class="row">
+    {%for movie in movies%}
+        <div class="col-sm-6 col-md-4">{% include '_movie_preview.html' %}</div>
+    {%endfor%}
+  </div>
+{%else%}
+  <i>No movie yet.</i>
+{%endif%}
+
+</div>
 {%endblock%}
