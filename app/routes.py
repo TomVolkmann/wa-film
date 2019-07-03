@@ -26,13 +26,13 @@ def index():
 
 @app.route('/completed')
 def completed(): 
-    movies = Movie.query.filter_by(isReleased=1).all()
+    movies = Movie.get_movies(1)
     designImage = DesignImage.query.filter_by(section="completed_movies", current=1).first()
     return render_template('movies_completed.html', movies=movies, designImage=designImage)
 
 @app.route('/development')
 def development():
-    movies = Movie.query.filter_by(isReleased=0).all()
+    movies = Movie.get_movies(0)
     designImage = DesignImage.query.filter_by(section="movies_in_development", current=1).first()
     return render_template('movies_development.html',movies=movies, designImage=designImage)
 
@@ -134,7 +134,7 @@ def movie(movietitle):
     color = Contact.getContacts(movie_result.color)
 
     if movie_result.release_date:
-        release_date = movie_result.release_date
+        release_date = movie_result.release_date[-4:]
     else: 
         release_date = []
 
@@ -395,6 +395,9 @@ def edit_contact():
     if form.validate_on_submit():
         e = {
             'name': form.data['name'],
+            'surname': form.data['surname'],
+            'email': form.data['email'],
+            'profession': form.data['profession'],
         }
         print(e)
         Contact.addContact(e)
@@ -406,6 +409,9 @@ def edit_contact():
             print(id)
             contact = Contact.getContact(int(id))
             form.name.data = contact.name
+            form.surname.data = contact.surname
+            form.email.data = contact.email
+            form.profession.data = contact.profession
        
     return render_template('edit_contact.html', title="Edit Contact", form=form)
 
