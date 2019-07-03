@@ -16,7 +16,12 @@
     <div class="navcontainer">
         <div class="navbar-homepage">
             <ul class="nav navbar-nav" id="left-links">
-                <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% if current_user.is_anonymous %}
+                    <li><a href="{{ url_for('login') }}">Login</a></li>
+                {% else %}
+                   <li><a onload="currentLinkFunction()"  href="{{ url_for('dashboard') }}">Dashboard</a></li>
+                   <li><a href="{{ url_for('logout') }}">Logout</a></li>
+                {% endif %}
             </ul>
         </div>
     </div>
@@ -40,7 +45,7 @@
 
   {% block content %}
   <div class = "Homepage-Image">
-    <img src="/static/Homepage-Background.jpg" id="homepage-image" alt="" />
+    <img src="{{designImage.image_url}}" id="homepage-image" alt="" />
   </div>
 
   <div class="centered">Filmwende</div>

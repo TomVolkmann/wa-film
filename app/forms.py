@@ -31,6 +31,9 @@ class PostMovieForm(FlaskForm):
     #image_url = FileField(validators=[FileRequired(u'Choose a file!')])
     image_url = FileField()
 
+class UploadForm(FlaskForm):
+    image_url = FileField()
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])

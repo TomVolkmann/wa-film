@@ -1,9 +1,9 @@
 from app import app, db
 from app.forms import RegistrationForm
 from flask import render_template, flash, redirect,url_for, request, send_from_directory
-from app.forms import LoginForm, PostMovieForm, PostNewsForm,  ContactForm
+from app.forms import LoginForm, PostMovieForm, PostNewsForm,  ContactForm, UploadForm
 from flask_login import current_user, login_user, logout_user, login_required
-from app.models import User, Movie, Post, Contact
+from app.models import User, Movie, Post, Contact, DesignImage
 from werkzeug.urls import url_parse
 from werkzeug.exceptions import abort
 
@@ -21,17 +21,20 @@ import time
 @app.route('/')
 @app.route('/index')
 def index():
-    return render_template("index.html", title='Home Page')
+    designImage = DesignImage.query.filter_by(section="home", current=1).first()
+    return render_template("index.html", title='Home Page', designImage=designImage)
 
 @app.route('/completed')
 def completed(): 
     movies = Movie.query.filter_by(isReleased=1).all()
-    return render_template('movies_completed.html', movies=movies)
+    designImage = DesignImage.query.filter_by(section="completed_movies", current=1).first()
+    return render_template('movies_completed.html', movies=movies, designImage=designImage)
 
 @app.route('/development')
 def development():
     movies = Movie.query.filter_by(isReleased=0).all()
-    return render_template('movies_development.html',movies=movies)
+    designImage = DesignImage.query.filter_by(section="movies_in_development", current=1).first()
+    return render_template('movies_development.html',movies=movies, designImage=designImage)
 
 @login_required
 @app.route('/dashboard', methods=['GET', 'POST'])
@@ -42,13 +45,18 @@ def dashboard():
 
 @app.route('/about')
 def about(): 
+    # COMMENT IN WHEN ABOUT.HTML IS READY !!!!!!!!!!!!!!!!!!!
+    #designImage = DesignImage.query.filter_by(section="about", current=1).first()
+    #return render_template('about.html', designImage=designImage)
     return render_template('about.html')
 
 @app.route('/news')
 def news():
     posts = Post.query.all()
-    print(posts)
-    return render_template('news.html', posts=posts)
+    designImage = DesignImage.query.filter_by(section="news", current=1).first()
+    #print(designImage.image_url)
+    #print(posts)
+    return render_template('news.html', posts=posts, designImage=designImage)
 
 
 ###################### USER MANEGEMENT #########################
@@ -98,7 +106,6 @@ def allowed_file(filename):
 
 @app.route('/movies/<movietitle>')
 def movie(movietitle):
-
     #Get Movie id
     movie_result = Movie.query.filter_by(title_DE = movietitle).first()
 
@@ -221,6 +228,8 @@ def edit_movie():
         if file and allowed_file(file.filename):
             filename = secure_filename(file.filename)
             file.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
+
+            #print(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
             imageIncluded = True
             e = {
@@ -387,45 +396,76 @@ def dashboard_info():
     posts = Post.query.all()
     return render_template('dashboard_info.html',posts=posts)
 
-@app.route ('/dashboard_design')
+# @app.route ('/dashboard_design')
+# def dashboard_design():
+#     posts = Post.query.all()
+#     return render_template('dashboard_design.html',posts=posts)
+
+@app.route('/dashboard_design',  methods=['GET', 'POST'])
 def dashboard_design():
-    posts = Post.query.all()
-    return render_template('dashboard_design.html',posts=posts)
+    form = UploadForm()
+    if form.validate_on_submit():
+        folder_name = request.form['sections']
+        #target = os.path.join(app.config['UPLOAD_FOLDER_HEADER'], '{}'.format(folder_name))
+        target = os.path.join(app.config['UPLOAD_FOLDER_HEADER'], folder_name)
+
+        #print(target)
+
+        if not os.path.isdir(target):
+            os.mkdir(target)
+            
+        file = request.files['image_url']
+        if file and allowed_file(file.filename):
+            filename = secure_filename(file.filename)
+            file.save(os.path.join(target, filename))
+
+            e = {
+                'section' : folder_name,
+                #'image_url' :  (os.path.join(target, filename))
+                #'image_url' :  str(url_for('static', filename= 'movies/' + filename)),
+                'image_url' :  str(url_for('static', filename= 'header/{}/'.format(folder_name) + filename)),
+                'current' : 1
+
+            }
+        
+            #print(e['image_url'])
+            DesignImage.addDesignImage(e)
+    return render_template("dashboard_design.html", form = form)
 
 ####################### IMAGE UPLOAD src: https://gist.github.com/greyli/ca74d71f13c52d089a8da8d2b758d519 ##############################
 
-photos = UploadSet('photos', IMAGES)
-configure_uploads(app, photos)
-patch_request_class(app)  # set maximum file size, default is 16MB
+# photos = UploadSet('photos', IMAGES)
+# configure_uploads(app, photos)
+# patch_request_class(app)  # set maximum file size, default is 16MB
 
-class UploadForm(FlaskForm):
-    photo = FileField(validators=[FileAllowed(photos, u'Image Only!'), FileRequired(u'Choose a file!')])
-    submit = SubmitField(u'Upload')
+# class UploadForm(FlaskForm):
+#     photo = FileField(validators=[FileAllowed(photos, u'Image Only!'), FileRequired(u'Choose a file!')])
+#     submit = SubmitField(u'Upload')
 
-@app.route('/upload', methods=['GET', 'POST'])
-def upload_file():
-    form = UploadForm()
-    if form.validate_on_submit():
-        for filename in request.files.getlist('photo'):
-            photos.save(filename)
-        success = True
-    else:
-        success = False
-    return render_template('upload.html', form=form, success=success)
+# @app.route('/upload', methods=['GET', 'POST'])
+# def upload_file():
+#     form = UploadForm()
+#     if form.validate_on_submit():
+#         for filename in request.files.getlist('photo'):
+#             photos.save(filename)
+#         success = True
+#     else:
+#         success = False
+#     return render_template('upload.html', form=form, success=success)
 
-@app.route('/manage')
-def manage_file():
-    files_list = os.listdir(app.config['UPLOADED_PHOTOS_DEST'])
-    return render_template('manage.html', files_list=files_list)
+# @app.route('/manage')
+# def manage_file():
+#     files_list = os.listdir(app.config['UPLOADED_PHOTOS_DEST'])
+#     return render_template('manage.html', files_list=files_list)
 
 
-@app.route('/delete/<filename>')
-def delete_file(filename):
-    file_path = photos.path(filename)
-    os.remove(file_path)
-    return redirect(url_for('manage_file'))
+# @app.route('/delete/<filename>')
+# def delete_file(filename):
+#     file_path = photos.path(filename)
+#     os.remove(file_path)
+#     return redirect(url_for('manage_file'))
 
-@app.route('/open/<filename>')
-def open_file(filename):
-    file_url = photos.url(filename)
-    return render_template('browser.html', file_url = file_url, filename = filename)
+# @app.route('/open/<filename>')
+# def open_file(filename):
+#     file_url = photos.url(filename)
+#     return render_template('browser.html', file_url = file_url, filename = filename)

@@ -1,17 +1,27 @@
 {% extends "base.html" %}
-{% block content %}
-
-<div class="row">
-    <img id="header" src="/static/Header1.jpg" alt="My image"/>
-    <div class="col-md-3"></div>
-</div>
-  
-<div class="container">
-
- <div class="col"><hr></div>
-
-
+{% import 'bootstrap/wtf.html' as wtf %}
+{% block app_content %}
   {% include '_dashboard.html' %}
   <h1>Design</h1>
-</div>
-{%endblock%}
+
+<div class="container">
+    <form method="POST" enctype="multipart/form-data" action="/dashboard_design" >
+      <div class = "row">
+        <div class = "col-md-4">
+          <d1>
+              <select class = "form-control" id = "sections"  name = "sections">
+                <option value="home">Home</option>
+                <option value="completed_movies">Completed Movies</option>
+                <option value="movies_in_development">Movies in Development</option>
+                <option value="news">News</option>
+                <option value="about">About</option>
+              </select>
+              {{ wtf.quick_form(form) }}
+              <input type="submit" class="btn btn-outline-primary" value="Absenden">
+          </d1>
+        </div>
+      </div>
+      
+    </form>
+  </div>
+  {%endblock%}

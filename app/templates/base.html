@@ -4,7 +4,9 @@
 
 <head> 
     <link rel="shortcut icon" href="{{ url_for('static' , filename='favicon.ico')}}">
+
 </head>
+<body>
 
 {% block title %}
     {% if title %}{{ title }} - FILMWENDE{% else %}Welcome to Filmwende{% endif %}
@@ -73,4 +75,7 @@
 <script src="{{url_for('.static', filename='myscripts.js')}}"></script>
 
 {% endblock %}
+
+
+</body>
 

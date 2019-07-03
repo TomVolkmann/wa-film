@@ -222,3 +222,20 @@ def create_String(contacts):
             contact_str+=str(contact)
     return contact_str
     
+class DesignImage(db.Model):
+    __tablename__ = "designimages"
+    id = db.Column(db.Integer, primary_key = True)
+    section = db.Column(db.String)
+    image_url = db.Column(db.String)
+    current = db.Column(db.Integer)
+
+    def addDesignImage(input):   
+        designImage = DesignImage(section=input["section"], image_url=input["image_url"], current=input["current"])
+        
+        previousDesignImages = db.session.query(DesignImage).filter(DesignImage.section == input["section"]).all()
+        for prevDesignImage in previousDesignImages:
+            prevDesignImage.current = 0
+
+        db.session.add(designImage)
+        db.session.commit()
+        db.session.close()
