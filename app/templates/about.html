@@ -15,24 +15,29 @@
   <div class="col"><hr></div>
     <p> {{data}} </p>
   <div class="col"><hr></div>
-
-  <div class="col see"><hr></div>
-
-  <h4>{{general.username}}</h4>
+  <div class="about">
+  <h4 style="font-weight:bold">{{general.username}}</h4>
   <p>{{general.email}}</p>
 
   <div class="col see"><hr></div>
 
   {% if about_users | length > 0 %}
-  {%for user in about_users%}
-    <h4>{{user.username}}</h4>
-    <p>{{user.email}}</p>
+  <div class="row">
+    {%for user in about_users%}
+      <div class="col-sm-3">
+        <h4 style="font-weight:bold">{{user.username}}</h4>
+        <p>{{user.email}}</p>
+      </div>
   {%endfor%}
   {%else%}
     <i>No user yet.</i>
   {%endif%}
+</div>
+
 
   <div class="col see"><hr></div>
+
+</div>
 
   <!-- Facebook, Twitter, Youtube -->
 
