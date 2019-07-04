@@ -32,6 +32,7 @@ class PostMovieForm(FlaskForm):
     image_url = FileField()
 
 class UploadForm(FlaskForm):
+    #This should be renamed to file, be aware of cases that already are in use
     image_url = FileField()
 
 class LoginForm(FlaskForm):
@@ -64,7 +65,11 @@ class PostNewsForm(FlaskForm):
 
 class ContactForm(FlaskForm):
     name = StringField(validators=[DataRequired()])
+    surname = StringField()
+    email = StringField('Email', validators=[Email()])
+    profession = StringField()
 
 class AboutContactForm(FlaskForm):
     about_contacts = SelectMultipleField(choices=[], coerce=int)
+    upload_file = FileField()
 

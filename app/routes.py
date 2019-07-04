@@ -26,13 +26,13 @@ def index():
 
 @app.route('/completed')
 def completed(): 
-    movies = Movie.query.filter_by(isReleased=1).all()
+    movies = Movie.get_movies(1)
     designImage = DesignImage.query.filter_by(section="completed_movies", current=1).first()
     return render_template('movies_completed.html', movies=movies, designImage=designImage)
 
 @app.route('/development')
 def development():
-    movies = Movie.query.filter_by(isReleased=0).all()
+    movies = Movie.get_movies(0)
     designImage = DesignImage.query.filter_by(section="movies_in_development", current=1).first()
     return render_template('movies_development.html',movies=movies, designImage=designImage)
 
@@ -43,12 +43,25 @@ def dashboard():
     movies = Movie.query.all()
     return render_template('dashboard_movies.html', movies = movies)
 
+#src: Answer from Fahad Haleem https://stackoverflow.com/questions/7165749/open-file-in-a-relative-location-in-python 
+# def readFile(filename):
+#     filehandle = open(filename)
+#     print (filehandle.read())
+#     filehandle.close()
+
 @app.route('/about')
 def about(): 
     about_users = User.get_about()
     general = User.get_general()
     designImage = DesignImage.query.filter_by(section="about", current=1).first()
-    return render_template('about.html', designImage=designImage, about_users=about_users, general=general)
+
+    #hardcoded path!
+    with open('app\static\\about\About.txt', 'r') as file:
+        data = file.read()
+        #print(data)
+
+    # return render_template('about.html', designImage=designImage, data=data)
+    return render_template('about.html', designImage=designImage, about_users=about_users, general=general, data=data)
 
 
 @app.route('/news')
@@ -121,7 +134,7 @@ def movie(movietitle):
     color = Contact.getContacts(movie_result.color)
 
     if movie_result.release_date:
-        release_date = movie_result.release_date
+        release_date = movie_result.release_date[-4:]
     else: 
         release_date = []
 
@@ -382,6 +395,9 @@ def edit_contact():
     if form.validate_on_submit():
         e = {
             'name': form.data['name'],
+            'surname': form.data['surname'],
+            'email': form.data['email'],
+            'profession': form.data['profession'],
         }
         print(e)
         Contact.addContact(e)
@@ -393,6 +409,9 @@ def edit_contact():
             print(id)
             contact = Contact.getContact(int(id))
             form.name.data = contact.name
+            form.surname.data = contact.surname
+            form.email.data = contact.email
+            form.profession.data = contact.profession
        
     return render_template('edit_contact.html', title="Edit Contact", form=form)
 
@@ -421,6 +440,12 @@ def dashboard_info():
     form = AboutContactForm()
     form.about_contacts.choices = [(user.id, user.username) for user in User.query.all()]
     if form.validate_on_submit():
+        file = request.files['upload_file']
+        if file and allowed_file(file.filename):
+            #filename = secure_filename(file.filename)
+            filename = 'About.txt'
+            #print(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
+            file.save(os.path.join(app.config['UPLOAD_FOLDER_ABOUT'], filename))
         print(form.data['about_contacts'])
         User.update_about_status(form.data['about_contacts'])
         about_users = User.get_about()

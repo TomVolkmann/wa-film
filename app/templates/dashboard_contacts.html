@@ -27,10 +27,10 @@
     {%for contact in contacts%}
     <tbody>
       <tr>
-        <td>contact-vorname</td>
-        <td>contact-nachname</td>
-        <td>contact-email</td>
-        <td>contact-job?</td>
+        <td>{{contact.name}}</td>
+        <td>{{contact.surname}}</td>
+        <td>{{contact.email}}</td>
+        <td>{{contact.profession}}</td>
         <td>
           <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/contacts/{{contact.id}}';"> See </button>
           <button type="button" class="btn btn-outline-secondary" onclick ="window.location = '/edit_contact?id={{contact.id}}';"> Edit </button>
